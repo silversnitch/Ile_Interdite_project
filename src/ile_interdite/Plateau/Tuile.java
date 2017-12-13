@@ -13,6 +13,13 @@ public class Tuile {
 	private String nom;
 	private int coordonnee;
 
+    public Tuile(String nom, int coordonnee) {
+        this.nom = nom;
+        this.coordonnee = coordonnee;
+    }
+
+        
+        
 	/**
 	 * 
 	 * @param av

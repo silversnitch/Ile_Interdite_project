@@ -9,6 +9,10 @@ public abstract class Aventurier {
 
 	private String nomJoueur;
         private Tuile position;
+        
+        public Aventurier(String nomJoueur) {
+        this.nomJoueur = nomJoueur;
+    }
 
 	public abstract String getNomRole();
 
