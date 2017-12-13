@@ -25,6 +25,7 @@ public abstract class Aventurier {
 	/**
 	 * 
 	 * @param g
+     * @return 
 	 */
 	public HashSet<Tuile> tuilesAssechables(Grille g) {
 		return g.getOrtAssechables(this.getPosition());
