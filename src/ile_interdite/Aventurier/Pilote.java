@@ -12,11 +12,17 @@ public class Pilote extends Aventurier {
         super(nomJoueur);
     }
 
+        @Override
 	public String getNomRole() {
 		// TODO - implement Pilote.getNomRole
 		throw new UnsupportedOperationException();
 	}
 
+    /**
+     *
+     * @return
+     */
+    @Override
 	public Pion getPion() {
 		// TODO - implement Pilote.getPion
 		throw new UnsupportedOperationException();
@@ -30,11 +36,22 @@ public class Pilote extends Aventurier {
 		this.deplacementSpecialEffectue = logique;
 	}
         
+          /**
+	 * 
+     * @return 
+	 */
+	public boolean getDeplacementSpecialEffectue() {
+		return deplacementSpecialEffectue;
+	}
+        
+        @Override
         public HashSet<Tuile> getDeplacementsPossibles(Grille g){
             HashSet<Tuile> tuilesPossibles = new HashSet<>();
-            if (deplacementSpecialEffectue == false){
-                g.getTuilesAccessibles();
-                
+            if (!this.getDeplacementSpecialEffectue()){
+                tuilesPossibles = g.getTuilesAccessibles(); 
+            }
+            else{
+                tuilesPossibles= g.getOrt(this.getPosition());
             }
             return tuilesPossibles;
         }
