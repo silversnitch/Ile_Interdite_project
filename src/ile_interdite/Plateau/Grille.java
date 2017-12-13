@@ -20,13 +20,13 @@ public class Grille {
                 if (tui.getCoordonnee() == t.getCoordonnee()-1){
                     tuilesOrthogonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()+1){
+                else if(tui.getCoordonnee() == t.getCoordonnee()+1){
                      tuilesOrthogonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()+10){
+                else if(tui.getCoordonnee() == t.getCoordonnee()+10){
                      tuilesOrthogonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()-10){
+                else if(tui.getCoordonnee() == t.getCoordonnee()-10){
                      tuilesOrthogonales.add(tui);
                 }    
             }
@@ -46,13 +46,13 @@ public class Grille {
                 if (tui.getCoordonnee() == t.getCoordonnee()+11){
                     tuilesDiagonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()+9){
+                else if(tui.getCoordonnee() == t.getCoordonnee()+9){
                      tuilesDiagonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()-11){
+                else if(tui.getCoordonnee() == t.getCoordonnee()-11){
                      tuilesDiagonales.add(tui);
                 }
-                if(tui.getCoordonnee() == t.getCoordonnee()-9){
+                else if(tui.getCoordonnee() == t.getCoordonnee()-9){
                      tuilesDiagonales.add(tui);
                 }    
             }
@@ -84,8 +84,36 @@ public class Grille {
 	 * @param pos
 	 */
 	public HashSet<Tuile> getOrtAssechables(Tuile pos) {
-		// TODO - implement Grille.getOrtAssechables
-		throw new UnsupportedOperationException();
+		 HashSet<Tuile> tuilesDiagonales = new HashSet<>();
+            
+                
+            for (Tuile tui : listeTuiles) {
+                if (tui.getCoordonnee() == pos.getCoordonnee()+10){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()-10){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()-1){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()+1){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }    
+            }
+            if(pos.getEtat()==INONDEE){
+                 tuilesDiagonales.add(pos);
+            }
+                
+                return tuilesDiagonales;
 	}
 
 	/**
@@ -93,8 +121,36 @@ public class Grille {
 	 * @param pos
 	 */
 	public HashSet<Tuile> getDiagAssechables(Tuile pos) {
-		// TODO - implement Grille.getDiagAssechables
-		throw new UnsupportedOperationException();
+            HashSet<Tuile> tuilesDiagonales = new HashSet<>();
+            
+                
+            for (Tuile tui : listeTuiles) {
+                if (tui.getCoordonnee() == pos.getCoordonnee()+11){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()+9){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()-11){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }
+                else if(tui.getCoordonnee() == pos.getCoordonnee()-9){
+                    if(tui.getEtat()==INONDEE){
+                        tuilesDiagonales.add(tui);
+                    }
+                }    
+            }
+            if(pos.getEtat()==INONDEE){
+                 tuilesDiagonales.add(pos);
+            }
+                
+                return tuilesDiagonales;
 	}
 
 	/**

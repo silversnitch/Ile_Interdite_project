@@ -10,11 +10,13 @@ public class Explorateur extends Aventurier {
         super(nomJoueur);
     }
 
+    @Override
 	public String getNomRole() {
 		// TODO - implement Explorateur.getNomRole
 		throw new UnsupportedOperationException();
 	}
 
+    @Override
 	public Pion getPion() {
 		// TODO - implement Explorateur.getPion
 		throw new UnsupportedOperationException();
@@ -38,5 +40,24 @@ public class Explorateur extends Aventurier {
                  
             return collecTuile;     
 	}
+        
+    @Override
+        public HashSet<Tuile> tuilesAssechables(Grille g){
+                 HashSet<Tuile> collecTuile = new HashSet<>();
+            
+		HashSet<Tuile> collecOrt ;
+                collecOrt = g.getOrtAssechables(this.getPosition());
+                collecOrt.forEach((tuilO) -> {
+                    collecTuile.add(tuilO);
+            });
+                
+                HashSet<Tuile> collecDiag  ;
+                collecDiag = g.getDiagAssechables(this.getPosition());
+                collecDiag.forEach((tuilD) -> {
+                    collecTuile.add(tuilD);
+            });
+                 
+            return collecTuile;  
+        }
 
 }

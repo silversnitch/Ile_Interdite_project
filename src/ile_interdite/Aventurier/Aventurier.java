@@ -26,9 +26,8 @@ public abstract class Aventurier {
 	 * 
 	 * @param g
 	 */
-	public void tuilesAssechables(Grille g) {
-		// TODO - implement Aventurier.tuilesAssechables
-		throw new UnsupportedOperationException();
+	public HashSet<Tuile> tuilesAssechables(Grille g) {
+		return g.getOrtAssechables(this.getPosition());
 	}
 
 	/**
