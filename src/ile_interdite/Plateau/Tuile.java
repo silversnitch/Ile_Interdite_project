@@ -1,9 +1,8 @@
 package ile_interdite.Plateau;
 
 import ile_interdite.Aventurier.Aventurier;
-import java.util.*;
-import java.util.stream.Stream;
-import ile_interdite.util.*;
+import ile_interdite.util.Utils.EtatTuile;
+import java.util.ArrayList;
 
 public class Tuile {
 
@@ -11,11 +10,13 @@ public class Tuile {
 	private ArrayList<Aventurier> aventuriers;
 	private EtatTuile etat;
 	private String nom;
-	private int coordonnee;
+	private Coordonnee coordonnee;
 
-    public Tuile(String nom, int coordonnee) {
+    public Tuile(String nom, Coordonnee coordonnee) {
+	this.departA = null;
         this.nom = nom;
         this.coordonnee = coordonnee;
+	this.etat = EtatTuile.ASSECHEE;
     }
 
         
@@ -51,7 +52,7 @@ public class Tuile {
 		throw new UnsupportedOperationException();
 	}
 
-        int getCoordonnee() {
+        Coordonnee getCoordonnee() {
         return this.coordonnee;
     }
 
@@ -103,7 +104,7 @@ public class Tuile {
     /**
      * @param coordonnee the coordonnee to set
      */
-    public void setCoordonnee(int coordonnee) {
+    public void setCoordonnee(Coordonnee coordonnee) {
         this.coordonnee = coordonnee;
     }
         

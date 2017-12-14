@@ -57,7 +57,7 @@ public class Utils {
             return this.couleur ;
         }
 
-        static Pion getFromName(String name) {
+        public static Pion getFromName(String name) {
             if (ROUGE.name().equals(name)) return ROUGE ;
             if (VERT.name().equals(name)) return VERT ;
             if (BLEU.name().equals(name)) return BLEU ;
@@ -65,6 +65,37 @@ public class Utils {
             if (VIOLET.name().equals(name)) return VIOLET ;
             if (JAUNE.name().equals(name)) return JAUNE ;
             return null ;
+        }
+    }
+    
+        public static enum Role {
+	EXPLORATEUR("Explorateur"),
+	INGENIEUR("Ingenieur"),
+	MESSAGER("Messager"),
+	NAVIGATEUR("Navigateur"),
+	PILOTE("Pilote"),
+	PLONGEUR("Plongeur");
+	
+
+        private final String nom ;
+
+        Role (String nom) {
+            this.nom = nom ;
+        }
+
+        @Override
+        public String toString() {
+            return this.nom ;
+        }
+
+        public static Role getFromName(String name) {
+		 if (EXPLORATEUR.name().equals(name)) return EXPLORATEUR ;
+            else if (INGENIEUR.name().equals(name)) return INGENIEUR ;
+            else if (MESSAGER.name().equals(name)) return MESSAGER ;
+            else if (NAVIGATEUR.name().equals(name)) return NAVIGATEUR ;
+            else if (PILOTE.name().equals(name)) return PILOTE ;
+	    else if (PLONGEUR.name().equals(name)) return PLONGEUR ;
+            else    return null ;
         }
     }
 

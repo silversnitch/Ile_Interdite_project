@@ -1,19 +1,20 @@
 package ile_interdite.Aventurier;
 
-public class Navigateur extends Aventurier {
+import ile_interdite.util.Utils.Pion;
+import ile_interdite.util.Utils.Role;
 
+public class Navigateur extends Aventurier {
+    
     public Navigateur(String nomJoueur) {
         super(nomJoueur);
     }
 
-	public String getNomRole() {
-		// TODO - implement Navigateur.getNomRole
-		throw new UnsupportedOperationException();
+	public Role getRole() {
+		return Role.NAVIGATEUR;
 	}
 
 	public Pion getPion() {
-		// TODO - implement Navigateur.getPion
-		throw new UnsupportedOperationException();
+		return Pion.JAUNE;
 	}
 
 }

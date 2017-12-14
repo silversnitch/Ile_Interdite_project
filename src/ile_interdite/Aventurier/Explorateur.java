@@ -2,24 +2,24 @@ package ile_interdite.Aventurier;
 
 import ile_interdite.Plateau.Grille;
 import ile_interdite.Plateau.Tuile;
+import ile_interdite.util.Utils.Role;
+import ile_interdite.util.Utils.Pion;
 import java.util.HashSet;
 
 public class Explorateur extends Aventurier {
-
+    
     public Explorateur(String nomJoueur) {
         super(nomJoueur);
     }
 
     @Override
-	public String getNomRole() {
-		// TODO - implement Explorateur.getNomRole
-		throw new UnsupportedOperationException();
+	public Role getRole() {
+		return Role.EXPLORATEUR;
 	}
 
     @Override
 	public Pion getPion() {
-		// TODO - implement Explorateur.getPion
-		throw new UnsupportedOperationException();
+		return Pion.VERT;
 	}
         
         @Override

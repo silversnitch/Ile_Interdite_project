@@ -2,30 +2,26 @@ package ile_interdite.Aventurier;
 
 import ile_interdite.Plateau.Grille;
 import ile_interdite.Plateau.Tuile;
+import ile_interdite.util.Utils.Pion;
+import ile_interdite.util.Utils.Role;
 import java.util.HashSet;
 
 public class Pilote extends Aventurier {
 
-	private boolean deplacementSpecialEffectue;
-
+    private boolean deplacementSpecialEffectue;
+	
     public Pilote(String nomJoueur) {
         super(nomJoueur);
     }
 
         @Override
-	public String getNomRole() {
-		// TODO - implement Pilote.getNomRole
-		throw new UnsupportedOperationException();
+	public Role getRole() {
+		return Role.PILOTE;
 	}
-
-    /**
-     *
-     * @return
-     */
+	
     @Override
 	public Pion getPion() {
-		// TODO - implement Pilote.getPion
-		throw new UnsupportedOperationException();
+		return Pion.BLEU;
 	}
 
 	/**

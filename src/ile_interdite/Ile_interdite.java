@@ -5,6 +5,8 @@
  */
 package ile_interdite;
 
+import ile_interdite.Controler.Controleur;
+
 /**
  *
  * @author tosiv
@@ -17,7 +19,8 @@ public class Ile_interdite
      */
     public static void main(String[] args)
     {
-	
+	Controleur controler = new Controleur();
+	controler.inscrireJoueurs();
     }
     
 }

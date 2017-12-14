@@ -1,19 +1,20 @@
 package ile_interdite.Aventurier;
 
-public class Messager extends Aventurier {
+import ile_interdite.util.Utils.Role;
+import ile_interdite.util.Utils.Pion;
 
+public class Messager extends Aventurier {
+    
     public Messager(String nomJoueur) {
         super(nomJoueur);
     }
 
-	public String getNomRole() {
-		// TODO - implement Messager.getNomRole
-		throw new UnsupportedOperationException();
+	public Role getRole() {
+		return Role.MESSAGER;
 	}
 
 	public Pion getPion() {
-		// TODO - implement Messager.getPion
-		throw new UnsupportedOperationException();
+		return Pion.ORANGE;
 	}
 
 }

@@ -2,19 +2,21 @@ package ile_interdite.Aventurier;
 
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.Plateau.Grille;
-import java.util.ArrayList;
+import ile_interdite.util.Utils.Pion;
+import ile_interdite.util.Utils.Role;
 import java.util.HashSet;
 
 public abstract class Aventurier {
 
 	private String nomJoueur;
         private Tuile position;
+	private Tuile tuileDepart;
         
         public Aventurier(String nomJoueur) {
         this.nomJoueur = nomJoueur;
     }
 
-	public abstract String getNomRole();
+	public abstract Role getRole();
 
 	public abstract Pion getPion();
 
@@ -62,5 +64,21 @@ public abstract class Aventurier {
 		// TODO - implement Aventurier.ajouterTuile
 		throw new UnsupportedOperationException();
 	}
+
+    /**
+     * @return the tuileDepart
+     */
+    public Tuile getTuileDepart()
+    {
+	return tuileDepart;
+    }
+
+    /**
+     * @param tuileDepart the tuileDepart to set
+     */
+    public void setTuileDepart(Tuile tuileDepart)
+    {
+	this.tuileDepart = tuileDepart;
+    }
 
     }
