@@ -55,4 +55,9 @@ public class Coordonnee
     {
 	return y;
     }
+    
+    public String toString()
+    {
+        return "(" + getX() + ";" + getY() + (")");
+    }
 }

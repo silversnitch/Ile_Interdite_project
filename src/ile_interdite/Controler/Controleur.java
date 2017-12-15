@@ -23,6 +23,7 @@ public class Controleur implements Observer{
 	private Grille grille;
 	private VueAventurier vueAventurier;
 	private ArrayList<Aventurier> joueurs;
+        private int indexJoueurActuel = 0;
 	private int nbAction = 0;
 
 // instanciation Aventuriers
@@ -41,24 +42,26 @@ public class Controleur implements Observer{
 		throw new UnsupportedOperationException();
 	}
 
-	public void JoueurSuivant() {
-		// TODO - implement Controleur.JoueurSuivant
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param collecTuile
-	 * @param pos
-	 */
-	public void ajouterTuile(Tuile collecTuile, Tuile pos) {
-		// TODO - implement Controleur.ajouterTuile
-		throw new UnsupportedOperationException();
+	public void JoueurSuivant()
+        {
+		if(indexJoueurActuel >= 3)
+                {
+                    indexJoueurActuel = 0;
+                }
+                else
+                {
+                    indexJoueurActuel++;
+                }
+                // IHM -> indiquer le changement de joueur.
 	}
 
 	public void assecherTuile() {
-		// TODO - implement Controleur.assecherTuile
-		throw new UnsupportedOperationException();
+		HashSet<Tuile> collecTuile = joueurs.get(indexJoueurActuel).tuilesAssechables(grille);
+                
+                for(Tuile tuile : collecTuile)
+                {
+                    System.out.println(tuile.getNom() + " : " + tuile.ge);
+                }
 	}
 	
 	public void inscrireJoueurs()
@@ -120,21 +123,26 @@ public class Controleur implements Observer{
 
 	@Override
 	public void update(Observable VueAventurier, Object action) {
-        if(action == "Terminer"){           
-            JoueurSuivant();
-            nbAction = 0;
-        }else{
-            if (action == "Assecher"){
-                assecherTuile();
-            }else if(action == "Deplacement"){
-                seDeplacer();
-            }
-            nbAction+=1;
-            if (nbAction == 2){
-                JoueurSuivant();
-                nbAction = 0; 
-            }
+       
+        if(action == "Terminer")
+        {
+            nbAction = 0;               // La mise a zero permet de terminer le tour
         }
-
+        else if (action == "Assecher")
+        {
+            assecherTuile();
+            nbAction--;
+        }
+        else if(action == "Deplacement")
+        {
+            seDeplacer();
+            nbAction--;
+        }
+        
+        if(nbAction == 0)
+        {
+            JoueurSuivant();
+            nbAction = 3;
+        }
     }
 }
