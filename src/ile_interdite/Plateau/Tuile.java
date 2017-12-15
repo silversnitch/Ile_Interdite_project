@@ -52,7 +52,7 @@ public class Tuile {
 		throw new UnsupportedOperationException();
 	}
 
-        Coordonnee getCoordonnee() {
+        public Coordonnee getCoordonnee() {
         return this.coordonnee;
     }
 

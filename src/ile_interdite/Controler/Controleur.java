@@ -10,6 +10,7 @@ import ile_interdite.Aventurier.Messager;
 import ile_interdite.Aventurier.Navigateur;
 import ile_interdite.Aventurier.Pilote;
 import ile_interdite.Aventurier.Plongeur;
+import ile_interdite.util.Utils.EtatTuile;
 import ile_interdite.util.Utils.Role;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,12 +57,42 @@ public class Controleur implements Observer{
 	}
 
 	public void assecherTuile() {
-		HashSet<Tuile> collecTuile = joueurs.get(indexJoueurActuel).tuilesAssechables(grille);
+                Aventurier avActuel = joueurs.get(indexJoueurActuel);
+		HashSet<Tuile> collecTuile = avActuel.tuilesAssechables(grille);
+                Scanner sc = new Scanner(System.in);
+                int x, y;
+                String nom;
+                Tuile choixTuile;
                 
-                for(Tuile tuile : collecTuile)
+                System.out.println("\nASSECHER");
+                
+                if(collecTuile.isEmpty())
                 {
-                    System.out.println(tuile.getNom() + " : " + tuile.ge);
+                    System.out.println("Aucune tuile à assecher.");
+                    nbAction++;
                 }
+                else
+                {
+                    System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
+                    System.out.println("\nVous pouvez assecher:");
+
+                    for(Tuile tuile : collecTuile)
+                    {
+                        System.out.println("\t'" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
+                    }
+
+                    do
+                    {
+                        System.out.println("\nNom de la tuile à assecher := ");
+                        nom = sc.nextLine();
+                        choixTuile = grille.chercherTuile(nom);  
+                    }
+                    while(choixTuile == null || !collecTuile.contains(choixTuile));
+                    
+                    choixTuile.setEtat(EtatTuile.ASSECHEE);
+                    System.out.println("Tuile assechee.");
+                }
+                
 	}
 	
 	public void inscrireJoueurs()
