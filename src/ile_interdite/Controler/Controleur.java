@@ -39,8 +39,41 @@ public class Controleur implements Observer{
 	}
             
 	public void seDeplacer() {
-		// TODO - implement Controleur.seDeplacer
-		throw new UnsupportedOperationException();
+            //Le éplacement du pilote n'est poas géré entièrement ni celui du plongeur 
+            // l'assèchement de l'ingénieur non plus
+	    Aventurier avActuel = joueurs.get(indexJoueurActuel);
+	    HashSet<Tuile> tuilesDeplacement = avActuel.getDeplacementsPossibles(this.grille); // Collection de tuiles accessibles paç l'aventurier
+	    
+	    if(tuilesDeplacement.isEmpty())
+	    {
+		System.out.println("Vous ne pouvez pas vous déplacer.");
+		nbAction++; //Annulation de l'action
+	    }
+	    else
+	    {
+		System.out.println("Vous êtes sur la tuile de coordonnées: "+avActuel.getPosition().getCoordonnee()+" appelée "+avActuel.getPosition().getNom());
+		System.out.println("Tuiles accessibles :");
+		for (Tuile tui : tuilesDeplacement){  // parcours des tuiles 
+		    System.out.println(tui.getNom());
+		}
+
+		Scanner sc = new Scanner(System.in);
+		String nomtuile;
+		Tuile tuiletemp ;
+
+		 do{
+		      System.out.print("nom := ");
+		      nomtuile = sc.nextLine();
+		      tuiletemp=this.grille.chercherTuile(nomtuile);
+		 }
+		 while (tuiletemp==null || ! tuilesDeplacement.contains(tuiletemp));
+
+		 System.out.println(" Vous vous êtes déplacés sur la tuile : " +tuiletemp.getNom());
+
+		 avActuel.getPosition().rmJoueur(avActuel); // retirer le joueur de sa tuile actuelle
+		 avActuel.setPosition(tuiletemp); // le mettre sur la nouvelle tuile
+		 tuiletemp.addJoueur(avActuel); // ajouter le joueur à la nouvelle tuile
+	    }
 	}
 
 	public void JoueurSuivant()
@@ -56,7 +89,8 @@ public class Controleur implements Observer{
                 // IHM -> indiquer le changement de joueur.
 	}
 
-	public void assecherTuile() {
+	public void assecherTuile()
+	{
                 Aventurier avActuel = joueurs.get(indexJoueurActuel);
 		HashSet<Tuile> collecTuile = avActuel.tuilesAssechables(grille);
                 Scanner sc = new Scanner(System.in);
@@ -69,7 +103,7 @@ public class Controleur implements Observer{
                 if(collecTuile.isEmpty())
                 {
                     System.out.println("Aucune tuile à assecher.");
-                    nbAction++;
+                    nbAction++; // Annulation de l'action
                 }
                 else
                 {
@@ -92,7 +126,6 @@ public class Controleur implements Observer{
                     choixTuile.setEtat(EtatTuile.ASSECHEE);
                     System.out.println("Tuile assechee.");
                 }
-                
 	}
 	
 	public void inscrireJoueurs()
@@ -103,18 +136,18 @@ public class Controleur implements Observer{
 	    
 	    for(Role role : Role.values()) rolesDispo.add(role);
 	    
-	    for(int i = 0 ; i < 4 ; i++)
+	    for(int i = 1 ; i <= 4 ; i++)
 	    {
 		
-		System.out.println("\n------\nJOUEUR " + i+1);
+		System.out.println("\n------\nJOUEUR " + i);
 		System.out.println("\nRoles disponibles :");
 		for(Role role : rolesDispo) System.out.println("\t" + role.toString());
-		System.out.println("\nNom := ");
+		System.out.print("\nNom := ");
 		nom = sc.nextLine();
 		
 		do
 		{
-		    System.out.println("Role := ");
+		    System.out.print("Role := ");
 		    choix = sc.nextLine().toUpperCase();
 		}
 		while(!rolesDispo.contains(Role.getFromName(choix)));				    // Tant que le user ne tappe pas un role existant ou disponible
@@ -175,5 +208,51 @@ public class Controleur implements Observer{
             JoueurSuivant();
             nbAction = 3;
         }
+    }
+	
+	
+    public Grille getGrille()
+    {
+	return grille;
+    }
+
+    /**
+     * @return the vueAventurier
+     */
+    public VueAventurier getVueAventurier()
+    {
+	return vueAventurier;
+    }
+
+    /**
+     * @param vueAventurier the vueAventurier to set
+     */
+    public void setVueAventurier(VueAventurier vueAventurier)
+    {
+	this.vueAventurier = vueAventurier;
+    }
+
+    /**
+     * @return the joueurs
+     */
+    public ArrayList<Aventurier> getJoueurs()
+    {
+	return joueurs;
+    }
+
+    /**
+     * @return the indexJoueurActuel
+     */
+    public int getIndexJoueurActuel()
+    {
+	return indexJoueurActuel;
+    }
+
+    public void lancerPartie()
+    {
+	inscrireJoueurs();
+	Aventurier joueurActuel = getJoueurs().get(indexJoueurActuel);
+	vueAventurier = new VueAventurier(joueurActuel.getNomJoueur(), joueurActuel.getRole().toString(), joueurActuel.getPion().getCouleur()); 
+	vueAventurier.AfficherVue();
     }
 }

@@ -80,5 +80,10 @@ public abstract class Aventurier {
     {
 	this.tuileDepart = tuileDepart;
     }
-
+    
+    public String getNomJoueur()
+    {
+	return nomJoueur;
     }
+
+}

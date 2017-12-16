@@ -150,6 +150,10 @@ public class VueAventurier extends Observable {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
+    
+    public void AfficherVue(){
+	this.window.setVisible(true);
+    }
  
      public static void main(String [] args) {
         // Instanciation de la fenêtre 
