@@ -24,40 +24,26 @@ public class Explorateur extends Aventurier {
         
         @Override
         public HashSet<Tuile> getDeplacementsPossibles(Grille g) {
-            HashSet<Tuile> collecTuile = new HashSet<>();
-            
-		HashSet<Tuile> collecOrt ;
-                collecOrt = g.getOrt(this.getPosition());
-                collecOrt.forEach((tuilO) -> {
-                    collecTuile.add(tuilO);
-            });
-                
-                HashSet<Tuile> collecDiag  ;
-                collecDiag = g.getDiag(this.getPosition());
-                collecDiag.forEach((tuilD) -> {
-                    collecTuile.add(tuilD);
-            });
+            HashSet<Tuile> collecTuile = super.getDeplacementsPossibles(g);
+	    collecTuile.addAll(g.getDiag(getPosition()));
                  
             return collecTuile;     
 	}
         
     @Override
-        public HashSet<Tuile> tuilesAssechables(Grille g){
-                 HashSet<Tuile> collecTuile = new HashSet<>();
-            
-		HashSet<Tuile> collecOrt ;
-                collecOrt = g.getOrtAssechables(this.getPosition());
-                collecOrt.forEach((tuilO) -> {
-                    collecTuile.add(tuilO);
-            });
-                
-                HashSet<Tuile> collecDiag  ;
-                collecDiag = g.getDiagAssechables(this.getPosition());
-                collecDiag.forEach((tuilD) -> {
-                    collecTuile.add(tuilD);
-            });
+        public HashSet<Tuile> tuilesAssechables(Grille g)
+	{
+            HashSet<Tuile> collecTuile = super.tuilesAssechables(g);
+	    collecTuile.addAll(g.getDiagAssechables(getPosition()));
                  
             return collecTuile;  
         }
-
+	
+    @Override
+    public void placerAventurier(Grille g)
+    {
+	Tuile tuileDepart = g.chercherTuile("La porte de cuivre");
+	tuileDepart.addJoueur(this);
+	setPosition(tuileDepart);
+    }
 }

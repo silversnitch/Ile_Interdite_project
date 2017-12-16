@@ -24,37 +24,40 @@ public class Controleur implements Observer{
 	private Grille grille;
 	private VueAventurier vueAventurier;
 	private ArrayList<Aventurier> joueurs;
-        private int indexJoueurActuel = 0;
-	private int nbAction = 0;
+        private int indexJoueurActuel;
+	private int nbAction;
 
-// instanciation Aventuriers
-//            Aventurier a1 = new Aventurier(Pion.BLEU,"Joueur1");
-//            
-//            .setDépartA()
         public Controleur()
 	{
-	    grille = null;
+	    grille = new Grille();
 	    vueAventurier = null;
 	    joueurs = new ArrayList<>();
+	    indexJoueurActuel = 0;
+	    nbAction = 3;
 	}
             
 	public void seDeplacer() {
             //Le éplacement du pilote n'est poas géré entièrement ni celui du plongeur 
             // l'assèchement de l'ingénieur non plus
 	    Aventurier avActuel = joueurs.get(indexJoueurActuel);
+	    
 	    HashSet<Tuile> tuilesDeplacement = avActuel.getDeplacementsPossibles(this.grille); // Collection de tuiles accessibles paç l'aventurier
+	    
+	    System.out.println("\n------\nNOUGER");
 	    
 	    if(tuilesDeplacement.isEmpty())
 	    {
+		System.out.println("(" + nbAction + " actions restantes)");
 		System.out.println("Vous ne pouvez pas vous déplacer.");
 		nbAction++; //Annulation de l'action
 	    }
 	    else
 	    {
-		System.out.println("Vous êtes sur la tuile de coordonnées: "+avActuel.getPosition().getCoordonnee()+" appelée "+avActuel.getPosition().getNom());
+		System.out.println("(" + (nbAction-1) + " actions restantes)");
+		System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
 		System.out.println("Tuiles accessibles :");
 		for (Tuile tui : tuilesDeplacement){  // parcours des tuiles 
-		    System.out.println(tui.getNom());
+		    System.out.println("\t'" + tui.getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
 		}
 
 		Scanner sc = new Scanner(System.in);
@@ -68,7 +71,7 @@ public class Controleur implements Observer{
 		 }
 		 while (tuiletemp==null || ! tuilesDeplacement.contains(tuiletemp));
 
-		 System.out.println(" Vous vous êtes déplacés sur la tuile : " +tuiletemp.getNom());
+		 System.out.println(" Vous vous êtes déplacés sur la tuile : '" +tuiletemp.getNom() + "'");
 
 		 avActuel.getPosition().rmJoueur(avActuel); // retirer le joueur de sa tuile actuelle
 		 avActuel.setPosition(tuiletemp); // le mettre sur la nouvelle tuile
@@ -78,15 +81,9 @@ public class Controleur implements Observer{
 
 	public void JoueurSuivant()
         {
-		if(indexJoueurActuel >= 3)
-                {
-                    indexJoueurActuel = 0;
-                }
-                else
-                {
-                    indexJoueurActuel++;
-                }
-                // IHM -> indiquer le changement de joueur.
+		if(indexJoueurActuel > 2)   indexJoueurActuel = 0;
+                else			    indexJoueurActuel++;
+		// IHM next joueur
 	}
 
 	public void assecherTuile()
@@ -98,15 +95,18 @@ public class Controleur implements Observer{
                 String nom;
                 Tuile choixTuile;
                 
-                System.out.println("\nASSECHER");
+                System.out.println("\n------\nASSECHER");
                 
                 if(collecTuile.isEmpty())
                 {
+		    System.out.println("(" + nbAction + " actions restantes)");
                     System.out.println("Aucune tuile à assecher.");
                     nbAction++; // Annulation de l'action
+		    
                 }
                 else
                 {
+		    System.out.println("(" + (nbAction-1) + " actions restantes)");
                     System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
                     System.out.println("\nVous pouvez assecher:");
 
@@ -130,16 +130,29 @@ public class Controleur implements Observer{
 	
 	public void inscrireJoueurs()
 	{
+	    joueurs.add(new Explorateur("Indiana Jones"));
+	    joueurs.add(new Ingenieur("R2D2"));
+	    //joueurs.add(new Messager("Radar"));
+	    //joueurs.add(new Navigateur("Cousteau"));
+	    joueurs.add(new Pilote("Foehammer"));
+	    joueurs.add(new Plongeur("Yellow submarine"));
+	    
+	    joueurs.get(0).placerAventurier(grille);
+	    joueurs.get(1).placerAventurier(grille);
+	    joueurs.get(2).placerAventurier(grille);
+	    joueurs.get(3).placerAventurier(grille);
+	    /*
 	    HashSet<Role> rolesDispo = new HashSet<>();
 	    Scanner sc = new Scanner(System.in);
 	    String nom, choix;
+	    Tuile tuileDepart;
 	    
 	    for(Role role : Role.values()) rolesDispo.add(role);
 	    
-	    for(int i = 1 ; i <= 4 ; i++)
+	    for(int i = 0 ; i < 4 ; i++)
 	    {
 		
-		System.out.println("\n------\nJOUEUR " + i);
+		System.out.println("\n------\nJOUEUR " + (i+1));
 		System.out.println("\nRoles disponibles :");
 		for(Role role : rolesDispo) System.out.println("\t" + role.toString());
 		System.out.print("\nNom := ");
@@ -152,37 +165,16 @@ public class Controleur implements Observer{
 		}
 		while(!rolesDispo.contains(Role.getFromName(choix)));				    // Tant que le user ne tappe pas un role existant ou disponible
 		
-		if(choix.equals(Role.EXPLORATEUR.name()))
-		{
-			joueurs.add(new Explorateur(nom));
-			rolesDispo.remove(Role.EXPLORATEUR);
-		}
-		else if(choix.equals(Role.INGENIEUR.name()))
-		{
-			joueurs.add(new Ingenieur(nom));
-			rolesDispo.remove(Role.INGENIEUR);
-		}
-		else if(choix.equals(Role.MESSAGER.name()))
-		{
-			joueurs.add(new Messager(nom));
-			rolesDispo.remove(Role.MESSAGER);
-		}
-		else if(choix.equals(Role.NAVIGATEUR.name()))
-		{
-			joueurs.add(new Navigateur(nom));
-			rolesDispo.remove(Role.NAVIGATEUR);
-		}
-		else if(choix.equals(Role.PILOTE.name()))
-		{
-			joueurs.add(new Pilote(nom));
-			rolesDispo.remove(Role.PILOTE);
-		}
-		else
-		{
-			joueurs.add(new Plongeur(nom));
-			rolesDispo.remove(Role.PLONGEUR);
-		}
-	    }
+		     if(choix.equals(Role.EXPLORATEUR.name()))	joueurs.add(new Explorateur(nom));
+		else if(choix.equals(Role.INGENIEUR.name()))	joueurs.add(new Ingenieur(nom));
+		else if(choix.equals(Role.MESSAGER.name()))	joueurs.add(new Messager(nom));
+		else if(choix.equals(Role.NAVIGATEUR.name()))	joueurs.add(new Navigateur(nom));
+		else if(choix.equals(Role.PILOTE.name()))	joueurs.add(new Pilote(nom));
+		else						joueurs.add(new Plongeur(nom));
+		
+		joueurs.get(i).placerAventurier(grille);
+		rolesDispo.remove(joueurs.get(i).getRole());
+	    }*/
 	}
 
 	@Override
@@ -201,13 +193,19 @@ public class Controleur implements Observer{
         {
             seDeplacer();
             nbAction--;
+	    
         }
+	else if(action == "Autre")
+	{
+	    nbAction--;
+	}
         
-        if(nbAction == 0)
+        if(nbAction <= 0)
         {
             JoueurSuivant();
             nbAction = 3;
         }
+	vueAventurier.majAventurier(joueurs.get(getIndexJoueurActuel()));
     }
 	
 	
@@ -251,8 +249,8 @@ public class Controleur implements Observer{
     public void lancerPartie()
     {
 	inscrireJoueurs();
-	Aventurier joueurActuel = getJoueurs().get(indexJoueurActuel);
-	vueAventurier = new VueAventurier(joueurActuel.getNomJoueur(), joueurActuel.getRole().toString(), joueurActuel.getPion().getCouleur()); 
-	vueAventurier.AfficherVue();
+	//Aventurier joueurActuel = getJoueurs().get(indexJoueurActuel);
+	vueAventurier = new VueAventurier(getJoueurs().get(indexJoueurActuel));
+	vueAventurier.addObserver(this);
     }
 }

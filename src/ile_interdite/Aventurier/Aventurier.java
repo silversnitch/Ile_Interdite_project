@@ -10,7 +10,6 @@ public abstract class Aventurier {
 
 	private String nomJoueur;
         private Tuile position;
-	private Tuile tuileDepart;
         
         public Aventurier(String nomJoueur) {
         this.nomJoueur = nomJoueur;
@@ -29,8 +28,9 @@ public abstract class Aventurier {
 	 * @param g
      * @return 
 	 */
-	public HashSet<Tuile> tuilesAssechables(Grille g) {
-		return g.getOrtAssechables(this.getPosition());
+	public HashSet<Tuile> tuilesAssechables(Grille g)
+	{
+	    return g.getOrtAssechables(getPosition());
 	}
 
 	/**
@@ -38,9 +38,9 @@ public abstract class Aventurier {
 	 * @param g
      * @return 
 	 */
-	public HashSet<Tuile> getDeplacementsPossibles(Grille g) {
-		return g.getOrt(this.getPosition());
-                
+	public HashSet<Tuile> getDeplacementsPossibles(Grille g)
+	{
+		return g.getOrt(getPosition());
 	}
 
 	/**
@@ -51,11 +51,6 @@ public abstract class Aventurier {
 		this.position=t;
 	}
 
-	public void initialiserAventurier() {
-		// TODO - implement Aventurier.initialiserAventurier
-		throw new UnsupportedOperationException();
-	}
-
 	/**
 	 * 
 	 * @param collecTuile
@@ -64,26 +59,11 @@ public abstract class Aventurier {
 		// TODO - implement Aventurier.ajouterTuile
 		throw new UnsupportedOperationException();
 	}
-
-    /**
-     * @return the tuileDepart
-     */
-    public Tuile getTuileDepart()
-    {
-	return tuileDepart;
-    }
-
-    /**
-     * @param tuileDepart the tuileDepart to set
-     */
-    public void setTuileDepart(Tuile tuileDepart)
-    {
-	this.tuileDepart = tuileDepart;
-    }
     
     public String getNomJoueur()
     {
 	return nomJoueur;
     }
-
+    
+    public abstract void placerAventurier(Grille g);
 }

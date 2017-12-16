@@ -51,5 +51,13 @@ public class Pilote extends Aventurier {
             }
             return tuilesPossibles;
         }
+	
+    @Override
+    public void placerAventurier(Grille g)
+    {
+	Tuile tuileDepart = g.chercherTuile("Héliport");
+	tuileDepart.addJoueur(this);
+	setPosition(tuileDepart);
+    }
 
 }
