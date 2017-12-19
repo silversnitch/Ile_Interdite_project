@@ -37,13 +37,11 @@ public class Controleur implements Observer{
 	}
             
 	public void seDeplacer() {
-            //Le éplacement du pilote n'est poas géré entièrement ni celui du plongeur 
-            // l'assèchement de l'ingénieur non plus
 	    Aventurier avActuel = joueurs.get(indexJoueurActuel);
-	    
+	    HashSet deplacementsNormaux = grille.getOrt(avActuel.getPosition());
 	    HashSet<Tuile> tuilesDeplacement = avActuel.getDeplacementsPossibles(this.grille); // Collection de tuiles accessibles paç l'aventurier
 	    
-	    System.out.println("\n------\nNOUGER");
+	    System.out.println("\n------\nBOUGER");
 	    
 	    if(tuilesDeplacement.isEmpty())
 	    {
@@ -55,27 +53,41 @@ public class Controleur implements Observer{
 	    {
 		System.out.println("(" + (nbAction-1) + " actions restantes)");
 		System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
+		
 		System.out.println("Tuiles accessibles :");
-		for (Tuile tui : tuilesDeplacement){  // parcours des tuiles 
-		    System.out.println("\t'" + tui.getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
+		for(Tuile tui : tuilesDeplacement){  // parcours des tuiles 
+		    System.out.print("\t'" + tui.getNom() + "' : " + tui.getCoordonnee().toString());
+		    if(deplacementsNormaux.contains(tui) && !avActuel.getDeplacementSpecialEffectue())
+		    {
+			System.out.println(" [Déplacement de base]");
+		    }
+		    else System.out.println();
 		}
 
 		Scanner sc = new Scanner(System.in);
 		String nomtuile;
 		Tuile tuiletemp ;
 
-		 do{
-		      System.out.print("nom := ");
-		      nomtuile = sc.nextLine();
-		      tuiletemp=this.grille.chercherTuile(nomtuile);
-		 }
-		 while (tuiletemp==null || ! tuilesDeplacement.contains(tuiletemp));
+		do{
+		    System.out.print("nom := ");
+		    nomtuile = sc.nextLine();
+		    tuiletemp=this.grille.chercherTuile(nomtuile);
+		}
+		while (tuiletemp==null || ! tuilesDeplacement.contains(tuiletemp));
 
-		 System.out.println(" Vous vous êtes déplacés sur la tuile : '" +tuiletemp.getNom() + "'");
+		System.out.println(" Vous vous êtes déplacés sur la tuile : '" +tuiletemp.getNom() + "'");
 
-		 avActuel.getPosition().rmJoueur(avActuel); // retirer le joueur de sa tuile actuelle
-		 avActuel.setPosition(tuiletemp); // le mettre sur la nouvelle tuile
-		 tuiletemp.addJoueur(avActuel); // ajouter le joueur à la nouvelle tuile
+		avActuel.getPosition().rmJoueur(avActuel); // retirer le joueur de sa tuile actuelle
+		avActuel.setPosition(tuiletemp); // le mettre sur la nouvelle tuile
+		tuiletemp.addJoueur(avActuel); // ajouter le joueur à la nouvelle tuile
+		 
+		if(!avActuel.getDeplacementSpecialEffectue())
+		{
+		    if(!deplacementsNormaux.contains(tuiletemp))
+		    {
+			avActuel.setDeplacementSpecialEffectue(true);
+		    }
+		} 
 	    }
 	}
 
@@ -83,18 +95,14 @@ public class Controleur implements Observer{
         {
 		if(indexJoueurActuel > 2)   indexJoueurActuel = 0;
                 else			    indexJoueurActuel++;
+		getJoueurs().get(getIndexJoueurActuel()).setDeplacementSpecialEffectue(false);
 		// IHM next joueur
 	}
 
 	public void assecherTuile()
 	{
-                Aventurier avActuel = joueurs.get(indexJoueurActuel);
-		HashSet<Tuile> collecTuile = avActuel.tuilesAssechables(grille);
-                Scanner sc = new Scanner(System.in);
-                int x, y;
-                String nom;
-                Tuile choixTuile;
-                
+		HashSet<Tuile> collecTuile = joueurs.get(indexJoueurActuel).tuilesAssechables(grille);
+		
                 System.out.println("\n------\nASSECHER");
                 
                 if(collecTuile.isEmpty())
@@ -107,65 +115,54 @@ public class Controleur implements Observer{
                 else
                 {
 		    System.out.println("(" + (nbAction-1) + " actions restantes)");
-                    System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
-                    System.out.println("\nVous pouvez assecher:");
+		    assecherTuile_ChercherEtAction(collecTuile);
+		    
+		    if(joueurs.get(indexJoueurActuel).getRole().equals(Role.INGENIEUR))
+		    {
+			collecTuile = joueurs.get(indexJoueurActuel).tuilesAssechables(grille);
+			if(!collecTuile.isEmpty())
+			{
+			    Scanner sc = new Scanner(System.in);
+			    String choix;
 
-                    for(Tuile tuile : collecTuile)
-                    {
-                        System.out.println("\t-" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
-                    }
+			    System.out.println("Voulez-vous assecher une autre tuile ? (o/n)");
+			    choix = sc.nextLine();
+			    if(choix.equals("o"))
+			    {
+				assecherTuile_ChercherEtAction(collecTuile);
+			    }
 
-                    do
-                    {
-                        System.out.println("\nNom de la tuile à assecher := ");
-                        nom = sc.nextLine();
-                        choixTuile = grille.chercherTuile(nom);  
-                    }
-                    while(choixTuile == null || !collecTuile.contains(choixTuile));
+			}
+		    }
+		}
+	}
+	
+	public void assecherTuile_ChercherEtAction(HashSet<Tuile> collecTuile) 
+	{
+	    Aventurier avActuel = joueurs.get(indexJoueurActuel);
+	    Scanner sc = new Scanner(System.in);
+            String nom;
+            Tuile choixTuile;
+	    
+            System.out.println("\nVous êtes sur la tuile '" + avActuel.getPosition().getNom() + "' : " + avActuel.getPosition().getCoordonnee().toString());
+	    System.out.println("\nVous pouvez assecher:");
+
+            for(Tuile tuile : collecTuile)
+            {
+		
+                System.out.println("\t'" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
+            }
+
+            do
+            {
+                System.out.println("\nNom de la tuile à assecher := ");
+                nom = sc.nextLine();
+                choixTuile = grille.chercherTuile(nom);  
+            }
+            while(choixTuile == null || !collecTuile.contains(choixTuile));
                     
-                    choixTuile.setEtat(EtatTuile.ASSECHEE);
-                    System.out.println("Tuile assechee.");
-                    
-//------------------Action Spéciale Ingénieur-----------------------------------                    
-                    
-                    if (avActuel.getRole()== Role.INGENIEUR){
-                        String choix = null;
-                        System.out.println("\n Voulez-vous assécher une seconde tuile pour la même action : oui/non ?");
-                        
-                        while(choix != "oui" && choix != "non")
-                        {
-                            choix = sc.nextLine();
-                        }
-                        
-                        if (choix == "oui");{
-                            HashSet<Tuile> nouvelleCollecTuile = avActuel.tuilesAssechables(grille);
-                            if(nouvelleCollecTuile.isEmpty())
-                            {                                   
-                                System.out.println("Aucune autre tuile à assecher.");                                   
-                            }
-                            else
-                            {
-                                System.out.println("\nVous pouvez assecher:");
-
-                                for(Tuile tuile : nouvelleCollecTuile)
-                                {
-                                    System.out.println("\t-" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
-                                }
-
-                                do
-                                {
-                                    System.out.println("\nNom de la tuile à assecher := ");
-                                    nom = sc.nextLine();
-                                    choixTuile = grille.chercherTuile(nom);  
-                                }
-                                while(choixTuile == null || !collecTuile.contains(choixTuile)); 
-                                choixTuile.setEtat(EtatTuile.ASSECHEE);
-                                System.out.println("Tuile assechee.");
-                            }
-                            
-                        }
-                    }
-                }
+            choixTuile.setEtat(EtatTuile.ASSECHEE);
+            System.out.println("Tuile assechee.");
 	}
 	
 	public void inscrireJoueurs()

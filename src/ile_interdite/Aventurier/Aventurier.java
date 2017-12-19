@@ -65,5 +65,13 @@ public abstract class Aventurier {
 	return nomJoueur;
     }
     
+    public void setDeplacementSpecialEffectue(boolean logique){
+      // cette méthode ne sert à rien à part pour le pilote lol!
+    }
+    
+     public boolean getDeplacementSpecialEffectue(){
+      return true;// cette méthode ne sert à rien à part pour le pilote lol!
+    }
+    
     public abstract void placerAventurier(Grille g);
 }

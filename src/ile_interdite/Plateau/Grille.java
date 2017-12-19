@@ -17,6 +17,7 @@ public class Grille {
 	    //instanciation des tuiles a la mano
 	    coordTmp = new Coordonnee(2, 5);
             listeTuiles.put(coordTmp,new Tuile("Le pont des Abîmes",coordTmp));
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
 	    
 	    coordTmp = new Coordonnee(3, 5);
             listeTuiles.put(coordTmp,new Tuile("La porte de Bronze",coordTmp));
@@ -30,6 +31,7 @@ public class Grille {
 	    
 	    coordTmp = new Coordonnee(3, 4);
             listeTuiles.put(coordTmp,new Tuile("La porte d'or",coordTmp));
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
 	    
 	    coordTmp = new Coordonnee(4, 4);
             listeTuiles.put(coordTmp,new Tuile("Les falaises de l'oubli",coordTmp));
