@@ -132,9 +132,11 @@ public class Controleur implements Observer{
                         String choix = null;
                         System.out.println("\n Voulez-vous assécher une seconde tuile pour la même action : oui/non ?");
                         
-                        while (choix != "oui" && choix!= "non"){
-                        choix = sc.nextLine();                        
+                        while(choix != "oui" && choix != "non")
+                        {
+                            choix = sc.nextLine();
                         }
+                        
                         if (choix == "oui");{
                             HashSet<Tuile> nouvelleCollecTuile = avActuel.tuilesAssechables(grille);
                             if(nouvelleCollecTuile.isEmpty())
@@ -160,7 +162,6 @@ public class Controleur implements Observer{
                                 choixTuile.setEtat(EtatTuile.ASSECHEE);
                                 System.out.println("Tuile assechee.");
                             }
-                            
                             
                         }
                     }
