@@ -4,6 +4,8 @@ import ile_interdite.Plateau.Grille;
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.util.Utils.Pion;
 import ile_interdite.util.Utils.Role;
+import java.util.HashSet;
+
 
 public class Plongeur extends Aventurier {
     
@@ -28,4 +30,10 @@ public class Plongeur extends Aventurier {
 	tuileDepart.addJoueur(this);
 	setPosition(tuileDepart);
     }
+    
+    public HashSet<Tuile> getDeplacementsPossibles(Grille g)
+	{
+            return g.getTuilesPlongeur(getPosition());
+        } 
+    
 }

@@ -242,8 +242,22 @@ public class Grille {
 	 * @param pos
 	 */
 	public HashSet<Tuile> getTuilesPlongeur(Tuile pos) {
-		// TODO - implement Grille.getTuilesPlongeur
-		throw new UnsupportedOperationException();
+            
+            HashSet<Tuile> collecTuileNage = new HashSet<>();
+            HashSet<Tuile> collecTuileArret = new HashSet<>();
+            collecTuileNage.add(pos);
+            collecTuileArret.add(pos);
+            
+            Iterator it = collecTuileNage.iterator();
+            Tuile clef;
+            while (it.hasNext())
+            {
+                clef = (Tuile)it.next();
+                rangerTuileOrto(clef, collecTuileNage, collecTuileArret);
+                              
+            }
+            collecTuileArret.remove(pos);
+            return collecTuileArret;
 	}
 
 	/**
@@ -260,9 +274,19 @@ public class Grille {
 	 * @param pos
 	 * @param collecTuilesNage
 	 */
-	public void rangerTuileOrto(Tuile pos, HashSet<Tuile> collecTuilesNage) {
-		// TODO - implement Grille.rangerTuileOrto
-		throw new UnsupportedOperationException();
+	public void rangerTuileOrto(Tuile pos, HashSet<Tuile> collecTuilesNage,HashSet<Tuile> collecTuileArret) {
+		HashSet<Tuile> tuileTemp = new HashSet<>();
+                tuileTemp = getOrt(pos);
+                for(Tuile tuile : tuileTemp){
+                    EtatTuile etat = tuile.getEtat();
+                    if (etat == EtatTuile.ASSECHEE || etat == EtatTuile.INONDEE){
+                        collecTuileArret.add(tuile);
+                    }
+                    if (etat == EtatTuile.COULEE || etat == EtatTuile.INONDEE){
+                        collecTuilesNage.add(tuile);
+                    }
+                }
+            
 	}
 
 }
