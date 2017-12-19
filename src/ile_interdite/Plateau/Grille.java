@@ -260,14 +260,7 @@ public class Grille {
             return collecTuileArret;
 	}
 
-	/**
-	 * 
-	 * @param pos
-	 */
-	public void initTuilesNage(Tuile pos) {
-		// TODO - implement Grille.initTuilesNage
-		throw new UnsupportedOperationException();
-	}
+	
 
 	/**
 	 * 

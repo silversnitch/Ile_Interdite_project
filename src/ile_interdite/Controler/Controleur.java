@@ -112,7 +112,7 @@ public class Controleur implements Observer{
 
                     for(Tuile tuile : collecTuile)
                     {
-                        System.out.println("\t'" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
+                        System.out.println("\t-" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
                     }
 
                     do
@@ -125,6 +125,45 @@ public class Controleur implements Observer{
                     
                     choixTuile.setEtat(EtatTuile.ASSECHEE);
                     System.out.println("Tuile assechee.");
+                    
+//------------------Action Spéciale Ingénieur-----------------------------------                    
+                    
+                    if (avActuel.getRole()== Role.INGENIEUR){
+                        String choix = null;
+                        System.out.println("\n Voulez-vous assécher une seconde tuile pour la même action : oui/non ?");
+                        
+                        while (choix != "oui" && choix!= "non"){
+                        choix = sc.nextLine();                        
+                        }
+                        if (choix == "oui");{
+                            HashSet<Tuile> nouvelleCollecTuile = avActuel.tuilesAssechables(grille);
+                            if(nouvelleCollecTuile.isEmpty())
+                            {                                   
+                                System.out.println("Aucune autre tuile à assecher.");                                   
+                            }
+                            else
+                            {
+                                System.out.println("\nVous pouvez assecher:");
+
+                                for(Tuile tuile : nouvelleCollecTuile)
+                                {
+                                    System.out.println("\t-" + tuile.getNom() + "' : " + tuile.getCoordonnee().toString());
+                                }
+
+                                do
+                                {
+                                    System.out.println("\nNom de la tuile à assecher := ");
+                                    nom = sc.nextLine();
+                                    choixTuile = grille.chercherTuile(nom);  
+                                }
+                                while(choixTuile == null || !collecTuile.contains(choixTuile)); 
+                                choixTuile.setEtat(EtatTuile.ASSECHEE);
+                                System.out.println("Tuile assechee.");
+                            }
+                            
+                            
+                        }
+                    }
                 }
 	}
 	

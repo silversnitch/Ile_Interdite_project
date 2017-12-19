@@ -4,6 +4,8 @@ import ile_interdite.Plateau.Grille;
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.util.Utils.Pion;
 import ile_interdite.util.Utils.Role;
+import java.util.HashSet;
+
 
 public class Ingenieur extends Aventurier {
     
@@ -27,7 +29,7 @@ public class Ingenieur extends Aventurier {
 		// TODO - implement Ingenieur.tuilesPos
 		throw new UnsupportedOperationException();
 	}
-	
+        	
 	    @Override
     public void placerAventurier(Grille g)
     {
