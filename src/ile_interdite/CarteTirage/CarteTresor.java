@@ -5,6 +5,8 @@
  */
 package ile_interdite.CarteTirage;
 
+import ile_interdite.Tresor.Tresor;
+
 /**
  *
  * @author tosiv
@@ -12,6 +14,12 @@ package ile_interdite.CarteTirage;
 public class CarteTresor extends CarteTirage
 {
     private final static TypeCarte type = TypeCarte.TRESOR;
+    private final Tresor tresor;
+
+    public CarteTresor(Tresor tresor)
+    {
+	this.tresor = tresor;
+    }
 
     @Override
     public void utiliser()
@@ -23,5 +31,10 @@ public class CarteTresor extends CarteTirage
     public TypeCarte getType()
     {
 	return type;
+    }
+
+    public Tresor getTresor()
+    {
+	return tresor;
     }
 }

@@ -1,6 +1,9 @@
 package ile_interdite.Aventurier;
 
 import ile_interdite.CarteTirage.CarteTirage;
+import ile_interdite.CarteTirage.CarteTresor;
+import ile_interdite.CarteTirage.TypeCarte;
+import ile_interdite.CarteTirage.TypeTresor;
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.Plateau.Grille;
 import ile_interdite.util.Utils.Pion;
@@ -94,5 +97,30 @@ public abstract class Aventurier {
     public void addInventaire(CarteTirage carte)
     {
 	this.inventaire.add(carte);
+    }
+
+    public HashSet<Aventurier> donnerCarte()
+    {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public int compterCarteTresorDeType(TypeTresor type)
+    {
+	int count = 0;
+	CarteTresor carteTresor;
+	
+	for(CarteTirage carte : inventaire)
+	{
+	    if(carte.getType() == TypeCarte.TRESOR)
+	    {
+		 carteTresor = (CarteTresor)carte;
+		if(carteTresor.getTresor().getType() == type)
+		{
+		    count++;
+		}
+	    }
+	}
+	
+	return 0;
     }
 }

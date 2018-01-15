@@ -5,18 +5,12 @@ import ile_interdite.CarteTirage.CarteTirage;
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.Plateau.Grille;
 import ile_interdite.Vue.VueAventurier;
-import ile_interdite.Aventurier.Aventurier;
-import ile_interdite.Aventurier.Explorateur;
-import ile_interdite.Aventurier.Ingenieur;
-import ile_interdite.Aventurier.Messager;
-import ile_interdite.Aventurier.Navigateur;
-import ile_interdite.Aventurier.Pilote;
-import ile_interdite.Aventurier.Plongeur;
+import ile_interdite.Aventurier.*;
 import ile_interdite.CarteTirage.TypeCarte;
-import ile_interdite.CarteTirage.TypeTresor;
 import ile_interdite.Tresor.Tresor;
 import ile_interdite.util.Utils.EtatTuile;
 import ile_interdite.util.Utils.Role;
+import ile_interdite.CarteTirage.TypeTresor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,7 +32,7 @@ public class Controleur implements Observer{
 	private ArrayList<CarteInnondation> defausseCI;
 	private final static int[] nbCarteMonteeEau_ATirer = {2,2,3,3,3,4,4,5,5,6};
 	private int niveauEau;
-        private ArrayList<Tresor> tresor;
+        private ArrayList<Tresor> tresors;
 
         public Controleur()
 	{
@@ -52,7 +46,7 @@ public class Controleur implements Observer{
 	    piocheCI = new ArrayList<>();
 	    defausseCI = new ArrayList<>();
 	    niveauEau = 0;
-	    tresor = new ArrayList<>();
+	    tresors = new ArrayList<>();
 	    initTresor();
 	}
             
@@ -113,9 +107,9 @@ public class Controleur implements Observer{
 
 	public void JoueurSuivant()
         {
-		if(indexJoueurActuel > 2)   indexJoueurActuel = 0;
-                else			    indexJoueurActuel++;
-		getJoueurs().get(getIndexJoueurActuel()).setDeplacementSpecialEffectue(false);	// Remet à jour l'action spéciale du pilote
+		if(indexJoueurActuel < joueurs.size()-1)    indexJoueurActuel++;
+                else					    indexJoueurActuel = 0;
+		getJActuel().setDeplacementSpecialEffectue(false);	// Remet à jour l'action spéciale du pilote
 	}
 
 	public void assecherTuile()
@@ -207,9 +201,11 @@ public class Controleur implements Observer{
 	    String nom, choix;
 	    Tuile tuileDepart;
 	    
+	    int nbrJoueur = 4;
+	    
 	    for(Role role : Role.values()) rolesDispo.add(role);
 	    
-	    for(int i = 0 ; i < 4 ; i++)
+	    for(int i = 0 ; i < nbrJoueur ; i++)
 	    {
 		
 		System.out.println("\n------\nJOUEUR " + (i+1));
@@ -253,8 +249,6 @@ public class Controleur implements Observer{
 		for(CarteInnondation c : defausseCI) piocheCI.add(c);
 		defausseCI.clear();
 		Collections.shuffle(piocheCI);
-		
-		isFinJeu();
 	    }
 	}
 	
@@ -266,12 +260,107 @@ public class Controleur implements Observer{
 		    // si le niveau de l'eau est trop haut
                     grille.chercherTuile("Héliport").getEtat() == EtatTuile.RETIREE ||
 		    // Si l'héliport à sombré
-		    (tresor.get(0).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresor.get(0).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
-		    (tresor.get(1).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresor.get(1).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
-		    (tresor.get(2).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresor.get(2).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
-		    (tresor.get(3).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresor.get(3).getEmplacement()[1].getEtat() == EtatTuile.RETIREE);  
+		    (tresors.get(0).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresors.get(0).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
+		    (tresors.get(1).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresors.get(1).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
+		    (tresors.get(2).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresors.get(2).getEmplacement()[1].getEtat() == EtatTuile.RETIREE) ||
+		    (tresors.get(3).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresors.get(3).getEmplacement()[1].getEtat() == EtatTuile.RETIREE);  
 		    // Si les emplacements d'un des trésor est englouti
 	}
+	
+	
+	public void actionsPossibles()
+	{
+	    isDeplacementPossible();
+	    isAssechementPossible();
+	    isDonCartePossible();
+	    isGagnerTresorPossible();
+	}
+	
+	public boolean isDeplacementPossible()
+	{
+	    HashSet<Tuile> tuiles = getJActuel().getDeplacementsPossibles(grille);
+	    
+	    if(tuiles.isEmpty())
+	    {
+		// MàJ IHM
+		return false;
+	    }
+	    else
+	    {
+		// MàJ IHM
+		return true;
+	    }
+	}
+	
+	public boolean isAssechementPossible()
+	{
+	    HashSet<Tuile> tuiles = getJActuel().tuilesAssechables(grille);
+	    
+	    if(tuiles.isEmpty())
+	    {
+		// MàJ IHM
+		return false;
+	    }
+	    else
+	    {
+		// MàJ IHM
+		return true;
+	    }
+	}
+	
+	public boolean isDonCartePossible()
+	{
+	    HashSet<Aventurier> Aventuriers = getJActuel().donnerCarte();
+	    
+	    if(Aventuriers.isEmpty())
+	    {
+		// MàJ IHM
+		return false;
+	    }
+	    else
+	    {
+		// MàJ IHM
+		return true;
+	    }
+	}
+	
+	public boolean isGagnerTresorPossible()
+	{
+	    boolean surLaTuile = false;   
+	    int i = 0;
+	    
+	    while(i < tresors.size() && !surLaTuile)
+	    // Pour tout les types de tresor ou jusqu'à qu'un tresor puisse être recupere
+	    {
+		if(!tresors.get(i).isGagne())
+		// Si le tresor n'est pas encore gagne
+		{
+		    if(getJActuel().compterCarteTresorDeType(tresors.get(i).getType()) >= 4)
+		    // Si le joueur a assez d'un type de carte
+		    {
+			if(getJActuel().getPosition() == tresors.get(i).getEmplacement()[1] || getJActuel().getPosition() == tresors.get(i).getEmplacement()[0])
+			// si le joueur est sur l'une des deux carte où il peut recuperer un tresor
+			{
+			    surLaTuile = true;
+			}
+		    }
+		}
+		i++;
+	    }
+	    
+	    if(surLaTuile)
+	    {
+		// MàJ IHM
+		return true;
+	    }
+	    else
+	    {
+		// MàJ IHM
+		return false;
+	    }
+	}
+	
+	
 	
 	@Override
 	public void update(Observable VueAventurier, Object action) {
@@ -306,16 +395,16 @@ public class Controleur implements Observer{
 	
 	public void initTresor()
 	{
-	    tresor.add(new Tresor(TypeTresor.PIERRE, grille.chercherTuile("Le temple de la lune"), grille.chercherTuile("Le temple du soleil")));
-	    tresor.add(new Tresor(TypeTresor.ZEPHYR, grille.chercherTuile("Le jardin des hurlements"), grille.chercherTuile("Le jardin des murmures")));
-	    tresor.add(new Tresor(TypeTresor.CRISTAL, grille.chercherTuile("La caverne des ombres"), grille.chercherTuile("La caverne du brasier")));
-	    tresor.add(new Tresor(TypeTresor.CALICE, grille.chercherTuile("Le palais de corail"), grille.chercherTuile("Le palais des marees")));
+	    tresors.add(new Tresor(TypeTresor.PIERRE, grille.chercherTuile("Le temple de la lune"), grille.chercherTuile("Le temple du soleil")));
+	    tresors.add(new Tresor(TypeTresor.ZEPHYR, grille.chercherTuile("Le jardin des hurlements"), grille.chercherTuile("Le jardin des murmures")));
+	    tresors.add(new Tresor(TypeTresor.CRISTAL, grille.chercherTuile("La caverne des ombres"), grille.chercherTuile("La caverne du brasier")));
+	    tresors.add(new Tresor(TypeTresor.CALICE, grille.chercherTuile("Le palais de corail"), grille.chercherTuile("Le palais des marees")));
 	}
 	
     public void lancerPartie()
     {
 	inscrireJoueurs();
-	vueAventurier = new VueAventurier(getJoueurs().get(indexJoueurActuel));
+	vueAventurier = new VueAventurier(getJActuel());
 	vueAventurier.addObserver(this);
     }
 	
