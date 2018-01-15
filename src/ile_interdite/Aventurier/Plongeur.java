@@ -9,21 +9,24 @@ import java.util.HashSet;
 
 public class Plongeur extends Aventurier {
     
+    private final static Role role = Role.PLONGEUR;
+    private final static Pion pion = Pion.VIOLET;
+    
     public Plongeur(String nomJoueur) {
         super(nomJoueur);
     }
 
-    @Override
+	@Override
 	public Role getRole() {
-		return Role.PLONGEUR;
+		return role;
+	}
+
+	@Override
+	public Pion getPion() {
+		return pion;
 	}
 
     @Override
-	public Pion getPion() {
-		return Pion.VIOLET;
-	}
-
-     @Override
     public void placerAventurier(Grille g)
     {
 	Tuile tuileDepart = g.chercherTuile("La porte de fer");

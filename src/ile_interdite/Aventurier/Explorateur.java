@@ -8,18 +8,21 @@ import java.util.HashSet;
 
 public class Explorateur extends Aventurier {
     
+    private final static Role role = Role.EXPLORATEUR;
+    private final static Pion pion = Pion.VERT;
+    
     public Explorateur(String nomJoueur) {
         super(nomJoueur);
     }
 
     @Override
 	public Role getRole() {
-		return Role.EXPLORATEUR;
+		return role;
 	}
 
     @Override
 	public Pion getPion() {
-		return Pion.VERT;
+		return pion;
 	}
         
         @Override

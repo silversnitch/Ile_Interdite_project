@@ -7,16 +7,19 @@ import ile_interdite.util.Utils.Role;
 
 public class Navigateur extends Aventurier {
     
+    private final static Role role = Role.NAVIGATEUR;
+    private final static Pion pion = Pion.JAUNE;
+    
     public Navigateur(String nomJoueur) {
         super(nomJoueur);
     }
 
 	public Role getRole() {
-		return Role.NAVIGATEUR;
+		return role;
 	}
 
 	public Pion getPion() {
-		return Pion.JAUNE;
+		return pion;
 	}
 	
     @Override

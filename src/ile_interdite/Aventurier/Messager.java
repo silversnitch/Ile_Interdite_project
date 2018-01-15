@@ -7,16 +7,19 @@ import ile_interdite.util.Utils.Pion;
 
 public class Messager extends Aventurier {
     
+    private final static Role role = Role.MESSAGER;
+    private final static Pion pion = Pion.ORANGE;
+    
     public Messager(String nomJoueur) {
         super(nomJoueur);
     }
 
 	public Role getRole() {
-		return Role.MESSAGER;
+		return role;
 	}
 
 	public Pion getPion() {
-		return Pion.ORANGE;
+		return pion;
 	}
 	
     @Override

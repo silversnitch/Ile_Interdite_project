@@ -1,19 +1,22 @@
 package ile_interdite.Aventurier;
 
+import ile_interdite.CarteTirage.CarteTirage;
 import ile_interdite.Plateau.Tuile;
 import ile_interdite.Plateau.Grille;
 import ile_interdite.util.Utils.Pion;
 import ile_interdite.util.Utils.Role;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public abstract class Aventurier {
 
 	private String nomJoueur;
-        private Tuile position;
+        private Tuile position;	// Position de l'aventurier
+	private ArrayList<CarteTirage> inventaire;
         
         public Aventurier(String nomJoueur) {
         this.nomJoueur = nomJoueur;
-    }
+	}
 
 	public abstract Role getRole();
 
@@ -24,8 +27,10 @@ public abstract class Aventurier {
         }
        
 	/**
+	 * Retourne la collection de tuile que l'aventurier peut assecher.
 	 * 
 	 * @param g
+	 *  la grille de jeu
      * @return 
 	 */
 	public HashSet<Tuile> tuilesAssechables(Grille g)
@@ -34,8 +39,10 @@ public abstract class Aventurier {
 	}
 
 	/**
+	 * Retourne la collection de tuile où l'aventurier peut se deplacer.
 	 * 
 	 * @param g
+	 *  la grille de jeu
      * @return 
 	 */
 	public HashSet<Tuile> getDeplacementsPossibles(Grille g)
@@ -43,21 +50,8 @@ public abstract class Aventurier {
 		return g.getOrt(getPosition());
 	}
 
-	/**
-	 * 
-	 * @param t
-	 */
 	public void setPosition(Tuile t) {
 		this.position=t;
-	}
-
-	/**
-	 * 
-	 * @param collecTuile
-	 */
-	public void ajouterTuile(Tuile collecTuile) {
-		// TODO - implement Aventurier.ajouterTuile
-		throw new UnsupportedOperationException();
 	}
     
     public String getNomJoueur()
@@ -65,13 +59,40 @@ public abstract class Aventurier {
 	return nomJoueur;
     }
     
+    /**
+     * Sert pour le pilote.
+     * 
+     * @param logique 
+     */
     public void setDeplacementSpecialEffectue(boolean logique){
       // cette méthode ne sert à rien à part pour le pilote lol!
     }
     
      public boolean getDeplacementSpecialEffectue(){
-      return true;// cette méthode ne sert à rien à part pour le pilote lol!
-    }
+      return true;
+     }
     
+     /**
+      * Place l'aventurier sur la grille à sa position de départ.
+      * 
+      * @param g
+      *	    la grille de jeu.
+      */
     public abstract void placerAventurier(Grille g);
+
+    /**
+     * @return the inventaire
+     */
+    public ArrayList<CarteTirage> getInventaire()
+    {
+	return inventaire;
+    }
+
+    /**
+     * @param inventaire the inventaire to set
+     */
+    public void addInventaire(CarteTirage carte)
+    {
+	this.inventaire.add(carte);
+    }
 }

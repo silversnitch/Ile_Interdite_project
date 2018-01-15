@@ -2,6 +2,7 @@ package ile_interdite.Plateau;
 
 
 import static ile_interdite.util.Utils.EtatTuile;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,7 +18,7 @@ public class Grille {
 	    //instanciation des tuiles a la mano
 	    coordTmp = new Coordonnee(2, 5);
             listeTuiles.put(coordTmp,new Tuile("Le pont des Abîmes",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
+	    //listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
 	    
 	    coordTmp = new Coordonnee(3, 5);
             listeTuiles.put(coordTmp,new Tuile("La porte de Bronze",coordTmp));
@@ -31,7 +32,7 @@ public class Grille {
 	    
 	    coordTmp = new Coordonnee(3, 4);
             listeTuiles.put(coordTmp,new Tuile("La porte d'or",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
+	    //listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE); // temp
 	    
 	    coordTmp = new Coordonnee(4, 4);
             listeTuiles.put(coordTmp,new Tuile("Les falaises de l'oubli",coordTmp));
@@ -44,7 +45,7 @@ public class Grille {
 	    
 	    coordTmp = new Coordonnee(2, 3);
             listeTuiles.put(coordTmp,new Tuile("Les dunes de l'illusion",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.COULEE);
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.RETIREE);
 	    
 	    coordTmp = new Coordonnee(3, 3);
             listeTuiles.put(coordTmp,new Tuile("Héliport",coordTmp));
@@ -59,12 +60,12 @@ public class Grille {
             listeTuiles.put(coordTmp,new Tuile("La forêt pourpre",coordTmp));
 	    
 	    coordTmp = new Coordonnee(1, 2);
-            listeTuiles.put(coordTmp,new Tuile("La lagon perdu",coordTmp));
+            listeTuiles.put(coordTmp,new Tuile("Le lagon perdu",coordTmp));
 	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE);
 	    
 	    coordTmp = new Coordonnee(2, 2);
             listeTuiles.put(coordTmp,new Tuile("Le marais brumeux",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.COULEE);
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.RETIREE);
 	    
 	    coordTmp = new Coordonnee(3, 2);
             listeTuiles.put(coordTmp,new Tuile("Observatoire",coordTmp));
@@ -72,7 +73,7 @@ public class Grille {
 	    
 	    coordTmp = new Coordonnee(4, 2);
             listeTuiles.put(coordTmp,new Tuile("Le rocher Fantome",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.COULEE);
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.RETIREE);
 	    
 	    coordTmp = new Coordonnee(5, 2);
             listeTuiles.put(coordTmp,new Tuile("La caverne du brasier",coordTmp));
@@ -83,7 +84,7 @@ public class Grille {
 	    
 	    coordTmp = new Coordonnee(2, 1);
             listeTuiles.put(coordTmp,new Tuile("Le temple de la lune",coordTmp));
-	    listeTuiles.get(coordTmp).setEtat(EtatTuile.COULEE);
+	    listeTuiles.get(coordTmp).setEtat(EtatTuile.RETIREE);
 	    
 	    coordTmp = new Coordonnee(3, 1);
             listeTuiles.put(coordTmp,new Tuile("Le palais des marees",coordTmp));
@@ -99,6 +100,12 @@ public class Grille {
 	    listeTuiles.get(coordTmp).setEtat(EtatTuile.INONDEE);
 	}
 
+	/**
+	 * Retourne les tuiles gauche/droit/haut/bas accessibles à l'aventurier
+	 * 
+	 * @param tuile
+	 *  position de l'aventurier
+	 */
 	public HashSet<Tuile> getOrt(Tuile tuile)
 	{
             HashSet<Tuile> tuilesOrthogonales = new HashSet<>();
@@ -108,23 +115,25 @@ public class Grille {
 	    
 	    // Droite
 	    tmpCoord = new Coordonnee(x+1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
 	    // Gauche
 	    tmpCoord = new Coordonnee(x-1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
 	    // Haut
 	    tmpCoord = new Coordonnee(x, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
 	    // Bas
 	    tmpCoord = new Coordonnee(x, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
                 
                 return tuilesOrthogonales;
 	}
 
 	/**
+	 *  Retourne les tuiles accessibles aux quatre coins de l'aventurier
 	 * 
 	 * @param t
+	 *  position de l'aventurier
 	 */
 	public HashSet<Tuile> getDiag(Tuile tuile)
 	{
@@ -135,23 +144,27 @@ public class Grille {
 	    
 	    // Haut/Droite
 	    tmpCoord = new Coordonnee(x+1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
 	    // Haut/Gauche
 	    tmpCoord = new Coordonnee(x-1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
 	    // Bas/Droite
 	    tmpCoord = new Coordonnee(x+1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
 	    // Bas/Gauche
 	    tmpCoord = new Coordonnee(x-1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.COULEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
 
             return tuilesDiagonales;
 	}
 
 	/**
+	 * Retourne une tuile d'apres son nom
 	 * 
 	 * @param nomTuile
+	 *  le nom de la tuile
+	 * @return 
+	 *  La tuile si trouvée, null sinon
 	 */
 	public Tuile chercherTuile(String nomTuile)
 	{
@@ -170,6 +183,10 @@ public class Grille {
 	    
 	}
 
+	/**
+	 * Retourne toutes les tuiles accessibles par le pilote lors de son action spéciale
+	 * 
+	 */
 	public HashSet<Tuile> getTuilesAccessibles()
 	{
 		HashSet<Tuile> tuilesAccessibles = new HashSet<>();
@@ -183,8 +200,10 @@ public class Grille {
 	}
 
 	/**
+	 * Retourne les tuiles gauche/droit/haut/bas/pos assechable par l'aventurier
 	 * 
 	 * @param pos
+	 *  La position de l'aventurier
 	 */
 	public HashSet<Tuile> getOrtAssechables(Tuile pos)
 	{
@@ -212,8 +231,10 @@ public class Grille {
 	}
 
 	/**
+	 * Retourne les tuiles assecheble aux quatre coins de l'aventurier
 	 * 
 	 * @param pos
+	 *  La position de l'aventurier
 	 */
 	public HashSet<Tuile> getDiagAssechables(Tuile pos) {
             HashSet<Tuile> tuilesDiagonales = new HashSet<>(); 
@@ -240,48 +261,84 @@ public class Grille {
 	}
 
 	/**
+	 * Retourne les tuiles accessible par le plongeur
+	 * Le principe de l'algo est de determiner tout les chemins possibles lors du déplacement du plongeur 
 	 * 
 	 * @param pos
+	 *  La position de l'aventurier
 	 */
 	public HashSet<Tuile> getTuilesPlongeur(Tuile pos) {
-            
-            HashSet<Tuile> collecTuileNage = new HashSet<>();
-            HashSet<Tuile> collecTuileArret = new HashSet<>();
-            collecTuileNage.add(pos);
+	    ArrayList<Tuile> collecTuileNage = new ArrayList<>();			    // Les tuiles que le plongeur peut virtuellement traverser | l'utilisation de l'ArrayList se justifie par la necessite d'un ordre
+            HashSet<Tuile> collecTuileArret = new HashSet<>();				    // Les tuiles où le plongeur peut s'arreter
+	    int i = 0;
+	    
+            collecTuileNage.add(pos);							    // La tuile d'où part le plongeur
             collecTuileArret.add(pos);
             
             Iterator it = collecTuileNage.iterator();
             Tuile clef;
-            while (it.hasNext())
-            {
-                clef = (Tuile)it.next();
-                rangerTuileOrto(clef, collecTuileNage, collecTuileArret);
-                              
+	    
+            while(i < collecTuileNage.size())						    // Tant que le plongeur peut se deplacer sur une tuile
+	    {
+                rangerTuileOrto(collecTuileNage.get(i), collecTuileNage, collecTuileArret); // On determine sur quelle tuile le plongeur peut se deplacer et celles où il peut s'arreter
+                i++;
             }
             collecTuileArret.remove(pos);
             return collecTuileArret;
+	}
+	
+	/**
+	 * Retourne les tuiles gauche/droit/bas/haut de la position du plongeur, quelque soit l'etat de la tuile
+	 * 
+	 * @param tuile
+	 */
+	public HashSet<Tuile> getOrtPlongeur(Tuile tuile)
+	{
+            HashSet<Tuile> tuilesOrthogonales = new HashSet<>();
+	    int x = tuile.getCoordonnee().getX();
+	    int y = tuile.getCoordonnee().getY();
+	    Coordonnee tmpCoord;
+	    
+	    // Droite
+	    tmpCoord = new Coordonnee(x+1, y);
+	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    // Gauche
+	    tmpCoord = new Coordonnee(x-1, y);
+	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    // Haut
+	    tmpCoord = new Coordonnee(x, y+1);
+	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    // Bas
+	    tmpCoord = new Coordonnee(x, y-1);
+	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+                
+            return tuilesOrthogonales;
 	}
 
 	
 
 	/**
+	 *  Ajoute dans le collections en parametre les tuiles qui sont assechable et celles où le plongeur peut s'arreter depuis une position virtuelle
 	 * 
 	 * @param pos
+	 *  la position virtuelle du plongeur
 	 * @param collecTuilesNage
+	 *  les tuiles par où passe le plongeur
+	 * @param collecTuileArret 
+	 *  les tuiles où peut s'arreter le plongeur
 	 */
-	public void rangerTuileOrto(Tuile pos, HashSet<Tuile> collecTuilesNage,HashSet<Tuile> collecTuileArret) {
-		HashSet<Tuile> tuileTemp = new HashSet<>();
-                tuileTemp = getOrt(pos);
-                for(Tuile tuile : tuileTemp){
+	public void rangerTuileOrto(Tuile pos, ArrayList<Tuile> collecTuilesNage,HashSet<Tuile> collecTuileArret) {
+		HashSet<Tuile> tuilesTemp = getOrtPlongeur(pos);
+		
+                for(Tuile tuile : tuilesTemp){
                     EtatTuile etat = tuile.getEtat();
                     if (etat == EtatTuile.ASSECHEE || etat == EtatTuile.INONDEE){
                         collecTuileArret.add(tuile);
                     }
-                    if (etat == EtatTuile.COULEE || etat == EtatTuile.INONDEE){
+                    if ((etat == EtatTuile.RETIREE || etat == EtatTuile.INONDEE) && !collecTuilesNage.contains(tuile)){
                         collecTuilesNage.add(tuile);
                     }
                 }
-            
 	}
 
 }

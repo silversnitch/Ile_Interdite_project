@@ -9,33 +9,28 @@ import java.util.HashSet;
 public class Pilote extends Aventurier {
 
     private boolean deplacementSpecialEffectue;
+    private final static Role role = Role.PILOTE;
+    private final static Pion pion = Pion.BLEU;
 	
     public Pilote(String nomJoueur) {
         super(nomJoueur);
+	deplacementSpecialEffectue = true;
     }
 
         @Override
 	public Role getRole() {
-		return Role.PILOTE;
+		return role;
 	}
 	
-    @Override
+	@Override
 	public Pion getPion() {
-		return Pion.BLEU;
+		return pion;
 	}
 
-	/**
-	 * 
-	 * @param logique
-	 */
 	public void setDeplacementSpecialEffectue(boolean logique) {
 		this.deplacementSpecialEffectue = logique;
 	}
         
-          /**
-	 * 
-     * @return 
-	 */
 	public boolean getDeplacementSpecialEffectue() {
 		return deplacementSpecialEffectue;
 	}

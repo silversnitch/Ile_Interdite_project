@@ -1,25 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ile_interdite.Plateau;
 
-/**
- *
- * @author tosiv
- */
 public class Coordonnee
 {
     private final int x;
     private final int y;
     
+
     public Coordonnee(int x, int y)
     {
 	this.x = x;
 	this.y = y;
     }
-    
+  
+    /* ------
+	Depuis stackoverflow.com
+	Permet d'utiliser un clef à 2D tel que HashMap<Coordonnee, Objet> map; ... map.get(new Coordonnee(0,0));
+    */
     @Override
     public boolean equals(Object o)
     {
@@ -39,18 +35,13 @@ public class Coordonnee
         result = 31 * result + getY();
         return result;
     }
-
-    /**
-     * @return the x
-     */
+    /* ------ */
+    
     public int getX()
     {
 	return x;
     }
 
-    /**
-     * @return the y
-     */
     public int getY()
     {
 	return y;

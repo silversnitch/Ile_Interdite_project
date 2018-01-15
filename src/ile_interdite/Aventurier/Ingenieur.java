@@ -9,28 +9,22 @@ import java.util.HashSet;
 
 public class Ingenieur extends Aventurier {
     
+    private final static Role role = Role.INGENIEUR;
+    private final static Pion pion = Pion.ROUGE;
+    
     public Ingenieur(String nomJoueur) {
         super(nomJoueur);
     }
 
 	public Role getRole() {
-		return Role.INGENIEUR;
+		return role;
 	}
 
 	public Pion getPion() {
-		return Pion.ROUGE;
-	}
-
-	/**
-	 * 
-	 * @param g
-	 */
-	public void tuilesPos(Grille g) {
-		// TODO - implement Ingenieur.tuilesPos
-		throw new UnsupportedOperationException();
+		return pion;
 	}
         	
-	    @Override
+    @Override
     public void placerAventurier(Grille g)
     {
 	Tuile tuileDepart = g.chercherTuile("La porte de bronze");

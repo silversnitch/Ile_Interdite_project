@@ -17,7 +17,7 @@ public class Utils {
     public static enum EtatTuile {
         ASSECHEE("Asséchée"), 
         INONDEE("Inondée"),
-        COULEE("Coulée");
+        RETIREE("Retirée");
 
         String libelle ;
         
