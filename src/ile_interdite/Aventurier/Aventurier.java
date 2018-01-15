@@ -99,9 +99,15 @@ public abstract class Aventurier {
 	this.inventaire.add(carte);
     }
 
-    public HashSet<Aventurier> donnerCarte()
+    public HashSet<Aventurier> donnerCarte(ArrayList<Aventurier> joueurs)
     {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	HashSet<Aventurier> aventuriers = getPosition().getAventuriers();
+	aventuriers.remove(this);
+	
+	// Si la main de l'aventurier est pleine
+	for(Aventurier av : aventuriers) if(av.isMainPleine()) aventuriers.remove(av);
+	
+	return aventuriers;
     }
     
     public int compterCarteTresorDeType(TypeTresor type)
@@ -121,6 +127,16 @@ public abstract class Aventurier {
 	    }
 	}
 	
-	return 0;
+	return count;
+    }
+
+    private boolean isMainPleine()
+    {
+	return inventaire.size() >= 9;
+    }
+
+    public void rmInventaire(CarteTresor carte)
+    {
+	inventaire.remove(carte);
     }
 }

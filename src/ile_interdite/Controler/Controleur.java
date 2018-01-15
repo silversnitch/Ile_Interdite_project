@@ -6,6 +6,7 @@ import ile_interdite.Plateau.Tuile;
 import ile_interdite.Plateau.Grille;
 import ile_interdite.Vue.VueAventurier;
 import ile_interdite.Aventurier.*;
+import ile_interdite.CarteTirage.CarteTresor;
 import ile_interdite.CarteTirage.TypeCarte;
 import ile_interdite.Tresor.Tresor;
 import ile_interdite.util.Utils.EtatTuile;
@@ -310,7 +311,7 @@ public class Controleur implements Observer{
 	
 	public boolean isDonCartePossible()
 	{
-	    HashSet<Aventurier> Aventuriers = getJActuel().donnerCarte();
+	    HashSet<Aventurier> Aventuriers = getJActuel().donnerCarte(joueurs);
 	    
 	    if(Aventuriers.isEmpty())
 	    {
@@ -357,6 +358,23 @@ public class Controleur implements Observer{
 	    {
 		// MàJ IHM
 		return false;
+	    }
+	}
+	
+	public void donnerCarte()
+	{
+	    HashSet<Aventurier> aventuriers = getJActuel().donnerCarte(joueurs);
+	    
+	    // MàJ IHM -> selection
+	    Aventurier avChoisi/* -> l'aventurier choisi*/ = new Pilote(""); // Le new est juste là pour ne pas tout planter
+	    
+	    // MàJ IHM -> selection
+	    CarteTresor carte/* -> la carte choisie */ = new CarteTresor(tresors.get(0)); // idem
+	    
+	    if(aventuriers.contains(avChoisi))
+	    {
+		getJActuel().rmInventaire(carte);
+		avChoisi.addInventaire(carte);
 	    }
 	}
 	
