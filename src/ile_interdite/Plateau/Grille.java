@@ -115,16 +115,16 @@ public class Grille {
 	    
 	    // Droite
 	    tmpCoord = new Coordonnee(x+1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Gauche
 	    tmpCoord = new Coordonnee(x-1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Haut
 	    tmpCoord = new Coordonnee(x, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas
 	    tmpCoord = new Coordonnee(x, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
                 
                 return tuilesOrthogonales;
 	}
@@ -144,16 +144,16 @@ public class Grille {
 	    
 	    // Haut/Droite
 	    tmpCoord = new Coordonnee(x+1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Haut/Gauche
 	    tmpCoord = new Coordonnee(x-1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas/Droite
 	    tmpCoord = new Coordonnee(x+1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas/Gauche
 	    tmpCoord = new Coordonnee(x-1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() != EtatTuile.RETIREE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 
             return tuilesDiagonales;
 	}
@@ -170,15 +170,15 @@ public class Grille {
 	{
 	    Coordonnee clef = null;
 	    Boolean trouve = false;
-	    Iterator it = listeTuiles.keySet().iterator();
+	    Iterator it = getListeTuiles().keySet().iterator();
 	    
 	    while(it.hasNext() && !trouve)
 	    {
 		clef = (Coordonnee) it.next();
-		trouve = listeTuiles.get(clef).getNom().toLowerCase().equals(nomTuile.toLowerCase());
+		trouve = getListeTuiles().get(clef).getNom().toLowerCase().equals(nomTuile.toLowerCase());
 	    }
 	    
-	    if(trouve)	return listeTuiles.get(clef);
+	    if(trouve)	return getListeTuiles().get(clef);
 	    else	return null;
 	    
 	}
@@ -190,7 +190,7 @@ public class Grille {
 	public HashSet<Tuile> getTuilesAccessibles()
 	{
 		HashSet<Tuile> tuilesAccessibles = new HashSet<>();
-                for(HashMap.Entry<Coordonnee, Tuile> eTuile : listeTuiles.entrySet())
+                for(HashMap.Entry<Coordonnee, Tuile> eTuile : getListeTuiles().entrySet())
 		{
                     if (eTuile.getValue().getEtat()== EtatTuile.ASSECHEE || eTuile.getValue().getEtat()== EtatTuile.INONDEE ){
                         tuilesAccessibles.add(eTuile.getValue());
@@ -216,16 +216,16 @@ public class Grille {
 	    if(pos.getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(pos);
 	    // Droite
 	    tmpCoord = new Coordonnee(x+1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Gauche
 	    tmpCoord = new Coordonnee(x-1, y);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Haut
 	    tmpCoord = new Coordonnee(x, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas
 	    tmpCoord = new Coordonnee(x, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
                 
             return tuilesOrthogonales;
 	}
@@ -246,16 +246,16 @@ public class Grille {
 	    if(pos.getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(pos);
 	    // Haut/Droite
 	    tmpCoord = new Coordonnee(x+1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Haut/Gauche
 	    tmpCoord = new Coordonnee(x-1, y+1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas/Droite
 	    tmpCoord = new Coordonnee(x+1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas/Gauche
 	    tmpCoord = new Coordonnee(x-1, y-1);
-	    if(listeTuiles.get(tmpCoord) != null && listeTuiles.get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null && getListeTuiles().get(tmpCoord).getEtat() == EtatTuile.INONDEE) tuilesDiagonales.add(getListeTuiles().get(tmpCoord));
    
             return tuilesDiagonales;
 	}
@@ -301,16 +301,16 @@ public class Grille {
 	    
 	    // Droite
 	    tmpCoord = new Coordonnee(x+1, y);
-	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Gauche
 	    tmpCoord = new Coordonnee(x-1, y);
-	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Haut
 	    tmpCoord = new Coordonnee(x, y+1);
-	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
 	    // Bas
 	    tmpCoord = new Coordonnee(x, y-1);
-	    if(listeTuiles.get(tmpCoord) != null) tuilesOrthogonales.add(listeTuiles.get(tmpCoord));
+	    if(getListeTuiles().get(tmpCoord) != null) tuilesOrthogonales.add(getListeTuiles().get(tmpCoord));
                 
             return tuilesOrthogonales;
 	}
@@ -340,5 +340,13 @@ public class Grille {
                     }
                 }
 	}
+
+    /**
+     * @return the listeTuiles
+     */
+    public HashMap<Coordonnee, Tuile> getListeTuiles()
+    {
+	return listeTuiles;
+    }
 
 }

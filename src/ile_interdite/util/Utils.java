@@ -98,6 +98,31 @@ public class Utils {
             else    return null ;
         }
     }
+	
+    public static enum Commandes {
+        VALIDER_JOUEURS("Valider l'inscription des joueurs"),
+        ASSECHER("Assécher une tuile"),
+        DONNER("Donner une carte à un autre joueur"),
+        RECUPERER_TRESOR("Récupérer le trésor de la tuile"),
+        TERMINER("Terminer son tour"),
+	AUTRE("Une autre action"),
+        CHOISIR_CARTE("Utiliser une carte trésor"),
+        CHOISIR_TUILE("Sélectionner une tuile"), 
+        DEPLACER("Déplacer un pion"),
+        VOIR_DEFAUSSE_TIRAGE("Un joueur souhaite voir la défausse de cartes Tirage"),
+	VOIR_DEFAUSSE_MEAUX("Un joueur souhaite voir la défausse de cartes montée des eaux");
+
+        private final String libelle ;
+
+        Commandes(String libelle) {
+            this.libelle = libelle ;
+        }
+
+        @Override
+        public String toString() {
+            return this.libelle ;
+        }
+    }
 
     public static ArrayList<Aventurier> melangerAventuriers(ArrayList<Aventurier> arrayList) {
         if (Parameters.ALEAS) {

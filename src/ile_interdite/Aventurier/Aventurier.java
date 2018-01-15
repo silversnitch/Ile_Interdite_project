@@ -18,7 +18,8 @@ public abstract class Aventurier {
 	private ArrayList<CarteTirage> inventaire;
         
         public Aventurier(String nomJoueur) {
-        this.nomJoueur = nomJoueur;
+	    this.nomJoueur = nomJoueur;
+	    this.inventaire = new ArrayList<>();
 	}
 
 	public abstract Role getRole();

@@ -1,10 +1,11 @@
 package ile_interdite.Plateau;
 
 import ile_interdite.Aventurier.Aventurier;
+import ile_interdite.Controler.ObjetIdentifie;
 import ile_interdite.util.Utils.EtatTuile;
 import java.util.HashSet;
 
-public class Tuile {
+public class Tuile extends ObjetIdentifie{
 	private HashSet<Aventurier> aventuriers;    // Collection des aventuriers sur la tuile
 	private EtatTuile etat;
 	private String nom;

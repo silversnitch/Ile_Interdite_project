@@ -11,7 +11,10 @@ import ile_interdite.CarteTirage.TypeCarte;
 import ile_interdite.Tresor.Tresor;
 import ile_interdite.util.Utils.EtatTuile;
 import ile_interdite.util.Utils.Role;
+import ile_interdite.util.Utils.Commandes;
 import ile_interdite.CarteTirage.TypeTresor;
+import ile_interdite.Vue.VuePlateau;
+import ile_interdite.util.MessagePlateau;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,7 +26,7 @@ import java.util.Scanner;
 public class Controleur implements Observer{
 
 	private Grille grille;
-	private VueAventurier vueAventurier;
+	private VuePlateau vuePlateau;
 	private ArrayList<Aventurier> joueurs;	// La liste des aventurier en jeu
         private int indexJoueurActuel;
 	private int nbAction;			// Le nombre d'actions disponible pour un tour
@@ -34,11 +37,12 @@ public class Controleur implements Observer{
 	private final static int[] nbCarteMonteeEau_ATirer = {2,2,3,3,3,4,4,5,5,6};
 	private int niveauEau;
         private ArrayList<Tresor> tresors;
+	private MessagePlateau lastMessage;
 
         public Controleur()
 	{
 	    grille = new Grille();
-	    vueAventurier = null;
+	    vuePlateau = null;
 	    joueurs = new ArrayList<>();
 	    indexJoueurActuel = 0;
 	    nbAction = 3;
@@ -49,6 +53,7 @@ public class Controleur implements Observer{
 	    niveauEau = 0;
 	    tresors = new ArrayList<>();
 	    initTresor();
+	    lastMessage = null;
 	}
             
 	public void seDeplacer() {
@@ -111,6 +116,7 @@ public class Controleur implements Observer{
 		if(indexJoueurActuel < joueurs.size()-1)    indexJoueurActuel++;
                 else					    indexJoueurActuel = 0;
 		getJActuel().setDeplacementSpecialEffectue(false);	// Remet à jour l'action spéciale du pilote
+		actionsPossibles();
 	}
 
 	public void assecherTuile()
@@ -183,7 +189,7 @@ public class Controleur implements Observer{
 	
 	public void inscrireJoueurs()
 	{
-	    /* Joueurs predefini
+	    //Joueurs predefini
 	    joueurs.add(new Explorateur("Indiana Jones"));
 	    joueurs.add(new Ingenieur("R2D2"));
 	    //joueurs.add(new Messager("Radar"));
@@ -195,8 +201,8 @@ public class Controleur implements Observer{
 	    joueurs.get(1).placerAventurier(grille);
 	    joueurs.get(2).placerAventurier(grille);
 	    joueurs.get(3).placerAventurier(grille);
-	    */
 	    
+	    /*
 	    HashSet<Role> rolesDispo = new HashSet<>();
 	    Scanner sc = new Scanner(System.in);
 	    String nom, choix;
@@ -232,6 +238,7 @@ public class Controleur implements Observer{
 		joueurs.get(i).placerAventurier(grille);
 		rolesDispo.remove(joueurs.get(i).getRole());					    // Suppression de la liste des aventuriers disponibles
 	    }
+	    */
 	}
 	
 	public void tirerCarte()
@@ -253,8 +260,6 @@ public class Controleur implements Observer{
 	    }
 	}
 	
-	
-
 	public boolean isFinJeu()
 	{
 	    return  niveauEau > 9 ||
@@ -267,8 +272,7 @@ public class Controleur implements Observer{
 		    (tresors.get(3).getEmplacement()[0].getEtat() == EtatTuile.RETIREE && tresors.get(3).getEmplacement()[1].getEtat() == EtatTuile.RETIREE);  
 		    // Si les emplacements d'un des trésor est englouti
 	}
-	
-	
+		
 	public void actionsPossibles()
 	{
 	    isDeplacementPossible();
@@ -281,48 +285,24 @@ public class Controleur implements Observer{
 	{
 	    HashSet<Tuile> tuiles = getJActuel().getDeplacementsPossibles(grille);
 	    
-	    if(tuiles.isEmpty())
-	    {
-		// MàJ IHM
-		return false;
-	    }
-	    else
-	    {
-		// MàJ IHM
-		return true;
-	    }
+	    vuePlateau.setEnableButton_deplacement(!tuiles.isEmpty());
+	    return !tuiles.isEmpty();
 	}
 	
 	public boolean isAssechementPossible()
 	{
 	    HashSet<Tuile> tuiles = getJActuel().tuilesAssechables(grille);
 	    
-	    if(tuiles.isEmpty())
-	    {
-		// MàJ IHM
-		return false;
-	    }
-	    else
-	    {
-		// MàJ IHM
-		return true;
-	    }
+	    vuePlateau.setEnableButton_assecher(!tuiles.isEmpty());
+	    return !tuiles.isEmpty();
 	}
 	
 	public boolean isDonCartePossible()
 	{
-	    HashSet<Aventurier> Aventuriers = getJActuel().donnerCarte(joueurs);
+	    HashSet<Aventurier> aventuriers = getJActuel().donnerCarte(joueurs);
 	    
-	    if(Aventuriers.isEmpty())
-	    {
-		// MàJ IHM
-		return false;
-	    }
-	    else
-	    {
-		// MàJ IHM
-		return true;
-	    }
+	    vuePlateau.setEnableButton_donnerCarte(!aventuriers.isEmpty());
+	    return !aventuriers.isEmpty();
 	}
 	
 	public boolean isGagnerTresorPossible()
@@ -349,16 +329,8 @@ public class Controleur implements Observer{
 		i++;
 	    }
 	    
-	    if(surLaTuile)
-	    {
-		// MàJ IHM
-		return true;
-	    }
-	    else
-	    {
-		// MàJ IHM
-		return false;
-	    }
+	    vuePlateau.setEnableButton_gagnerTresor(surLaTuile);
+	    return surLaTuile;
 	}
 	
 	public void donnerCarte()
@@ -379,39 +351,66 @@ public class Controleur implements Observer{
 	}
 	
 	
-	
-	@Override
-	public void update(Observable VueAventurier, Object action) {
-       
-        if(action == "Terminer")
-        {
-            nbAction = 0;						    // La mise a zero permet de terminer le tour
-        }
-        else if (action == "Assecher")
-        {
-            assecherTuile();
-            nbAction--;
-        }
-        else if(action == "Deplacement")
-        {
-            seDeplacer();
-            nbAction--;
-	    
-        }
-	else if(action == "Autre")
+    private void gagnerTresor()
+    {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void update(Observable VueAventurier, Object action)
+    {
+	MessagePlateau message = (MessagePlateau)action;
+
+	switch(message.getCommande())
 	{
-	    nbAction--;
+	    case DEPLACER:
+		seDeplacer();
+		nbAction--;
+		actionsPossibles();
+		break;
+		
+	    case ASSECHER:
+		assecherTuile();
+		nbAction--;
+		isAssechementPossible();
+		break;
+		
+	    case DONNER:
+		donnerCarte();
+		nbAction--;
+		break;
+		
+	    case RECUPERER_TRESOR:
+		gagnerTresor();
+		vuePlateau.setEnableButton_gagnerTresor(false);
+		nbAction--;
+		break;
+		
+	    case TERMINER:
+		nbAction = 0;
+		break;
+		
+	    case VOIR_DEFAUSSE_TIRAGE:
+		break;
+		
+	    case VOIR_DEFAUSSE_MEAUX:
+		break;
+		
+	    default:
+		System.out.println("DEFAULT");
+		break;
 	}
-        
-        if(nbAction <= 0)
+	
+	if(nbAction <= 0)
         {
             JoueurSuivant();
             nbAction = 3;
         }
-	vueAventurier.majAventurier(joueurs.get(getIndexJoueurActuel()));   // Met à jour la vue
+	
+	lastMessage = message;
     }
 	
-	public void initTresor()
+    public void initTresor()
 	{
 	    tresors.add(new Tresor(TypeTresor.PIERRE, grille.chercherTuile("Le temple de la lune"), grille.chercherTuile("Le temple du soleil")));
 	    tresors.add(new Tresor(TypeTresor.ZEPHYR, grille.chercherTuile("Le jardin des hurlements"), grille.chercherTuile("Le jardin des murmures")));
@@ -422,26 +421,15 @@ public class Controleur implements Observer{
     public void lancerPartie()
     {
 	inscrireJoueurs();
-	vueAventurier = new VueAventurier(getJActuel());
-	vueAventurier.addObserver(this);
+	vuePlateau = new VuePlateau(grille);
+	vuePlateau.addObserver(this);
+	actionsPossibles();
     }
-	
-	
+
     public Grille getGrille()
     {
 	return grille;
     }
-
-    public VueAventurier getVueAventurier()
-    {
-	return vueAventurier;
-    }
-
-    public void setVueAventurier(VueAventurier vueAventurier)
-    {
-	this.vueAventurier = vueAventurier;
-    }
-
  
     public ArrayList<Aventurier> getJoueurs()
     {
@@ -458,5 +446,5 @@ public class Controleur implements Observer{
     {
 	return joueurs.get(indexJoueurActuel);
     }
-    
+
 }
