@@ -12,7 +12,9 @@ import ile_interdite.Aventurier.Pilote;
 import ile_interdite.CarteTirage.CarteHelico;
 import ile_interdite.CarteTirage.CarteMEaux;
 import ile_interdite.CarteTirage.CarteSable;
+import ile_interdite.CarteTirage.CarteTirage;
 import ile_interdite.CarteTirage.CarteTresor;
+import ile_interdite.CarteTirage.TypeCarte;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,6 +39,7 @@ import javax.swing.SwingConstants;
 public class VueJoueurCarte extends Observable {
     private JFrame window;
     private JLabel message;
+    private JPanel panelMessage;
     private JPanel mainPanel;
     private int nbJoueur;
     private ArrayList<Aventurier> aventuriers;
@@ -58,11 +61,11 @@ public class VueJoueurCarte extends Observable {
         window.add(mainPanel);
         
         // messages si il faut défausser là où le joueur se trouve ...
-        JPanel panelMessage= new JPanel(new GridLayout(1,1));
+        panelMessage= new JPanel(new GridLayout(1,1));
         mainPanel.add(panelMessage, BorderLayout.NORTH);
-        message = new JLabel("   Message    ",SwingConstants.CENTER) ;
-        panelMessage.add(message);
-        message.setFont(new Font(getMessage().getFont().getName(), getMessage().getFont().getStyle(), (int) (getMessage().getFont().getSize() *2 )));
+//      message = new JLabel("   Message    ",SwingConstants.CENTER) ;
+//      panelMessage.add(message);
+//      message.setFont(new Font(getMessage().getFont().getName(), getMessage().getFont().getStyle(), (int) (getMessage().getFont().getSize() *2 )));
         
         // nom du joueur et son rôle
         JPanel panelNomj = new JPanel(new GridLayout(20,1));
@@ -154,42 +157,7 @@ public class VueJoueurCarte extends Observable {
             }
             
         }
-       
-        
-        
 
-        
-//         // Actions sur les cartes 
-//         
-//         JPanel panelActionCarte = new JPanel(new GridLayout(5,3));
-//         mainPanel.add(panelActionCarte, BorderLayout.EAST);
-//         for (int i=0; i<5; i++){
-//             if (i==0){
-//                 panelActionCarte.add(new JLabel());
-//                 panelActionCarte.add(new JLabel(" Joueur 1"));
-//                 panelActionCarte.add(new JLabel());
-//             }
-//             else if(i==1){
-//                 panelActionCarte.add(new JLabel());
-//                 panelActionCarte.add(new JButton("Défausser"));
-//                  panelActionCarte.add(new JLabel());
-//             }
-//             else if(i==2){
-//                panelActionCarte.add(new JLabel());
-//                panelActionCarte.add(new JLabel());
-//                panelActionCarte.add(new JLabel());
-//             }
-//             else if(i==3){
-//                 panelActionCarte.add(new JLabel());
-//                 panelActionCarte.add(new JButton("Jouer"));
-//                  panelActionCarte.add(new JLabel());
-//             }
-//             else{
-//                 panelActionCarte.add(new JLabel());
-//                 panelActionCarte.add(new JLabel(" visuel carte"));
-//                  panelActionCarte.add(new JLabel());
-//             }
-//         }
          this.mettreAJour();
          this.afficher();
     }
@@ -321,6 +289,39 @@ public class VueJoueurCarte extends Observable {
         this.message = message;
     }
     
+      public void actionsCarte(CarteTirage carte , Aventurier av){
+         // Actions sur les cartes 
+         
+         JPanel panelActionCarte = new JPanel(new GridLayout(3,7));
+         this.panelMessage.add(panelActionCarte);
+         for (int i=0; i<21; i++){
+             if(i==8){
+                 
+                 panelActionCarte.add(new JButton("Défausser"));
+                 
+             }
+             else if(i==10){
+                if (carte.getType()==TypeCarte.HELICO || carte.getType()==TypeCarte.SABLE){
+                    
+                    panelActionCarte.add(new JButton("Jouer"));
+                    
+                }
+                else{
+                    panelActionCarte.add(new JLabel());
+                }
+             }   
+                
+                else if (i== 12){
+                 
+                 panelActionCarte.add(new JLabel(" visuel carte"));
+                 
+             }
+                else {
+                    panelActionCarte.add(new JLabel());
+                }
+         }
+      }
+    
       public static void main(String [] args) {
 	ArrayList<Aventurier> testav = new ArrayList<>();
         
@@ -349,7 +350,16 @@ public class VueJoueurCarte extends Observable {
         testav.add(thomas);
         thomas.addInventaire(carteH);
         
-        VueJoueurCarte vjc = new VueJoueurCarte(3, testav);
+        VueJoueurCarte vjc = new VueJoueurCarte(2, testav);
+        vjc.actionsCarte(carteME, val);
         
     }
+      
+    
+          
+        
+         
+         
+          
+      
 }
