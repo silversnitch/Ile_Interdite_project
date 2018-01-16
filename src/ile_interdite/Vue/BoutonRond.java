@@ -23,14 +23,14 @@ public class BoutonRond extends JButton {
  
 private Image img;
 public BoutonRond(String aNameString){
-super(aNameString);
-//                setContentAreaFilled(false);
-//                try {
-//                    img = ImageIO.read(new File(aNameString));
-//           } catch (IOException e) {
-//                   // TODO Auto-generated catch block
-//                   e.printStackTrace();
-//           }
+super("");
+                setContentAreaFilled(false);
+                try {
+                    img = ImageIO.read(new File(aNameString));
+           } catch (IOException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+           }
 }
 
 @Override

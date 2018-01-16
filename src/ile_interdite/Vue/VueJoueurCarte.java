@@ -70,14 +70,14 @@ public class VueJoueurCarte extends Observable {
         // nom du joueur et son rôle
         JPanel panelNomj = new JPanel(new GridLayout(20,1));
         mainPanel.add(panelNomj, BorderLayout.WEST);
-        
+        String imgFolder = System.getProperty("user.dir") + "/src/imgicones/" ;
         // Récupérer le nom des joueurs et leur rôle
         
         for(int i=0; i<8;i++){
             if(i==1){
                 panelNomj.add(new JLabel());
                 panelNomj.add(new JLabel());
-                BoutonRond boutonRole1 = new BoutonRond(aventuriers.get(0).getRole().toString());
+                BoutonRond boutonRole1 = new BoutonRond(imgFolder+aventuriers.get(0).getRole().toString()+".png");
                 panelNomj.add(boutonRole1);
                 panelNomj.add(new JLabel(aventuriers.get(0).getNomJoueur()));
                 
@@ -87,7 +87,7 @@ public class VueJoueurCarte extends Observable {
             else if (i==3){
                 panelNomj.add(new JLabel());
                 panelNomj.add(new JLabel());
-                BoutonRond boutonRole2 = new BoutonRond(aventuriers.get(1).getRole().toString());
+                BoutonRond boutonRole2 = new BoutonRond(imgFolder+aventuriers.get(1).getRole().toString()+".png");
                 panelNomj.add(boutonRole2);
                 panelNomj.add(new JLabel(aventuriers.get(1).getNomJoueur()));
                  
@@ -99,7 +99,7 @@ public class VueJoueurCarte extends Observable {
                 JPanel panelBoutonRole3 = new JPanel();
                 BoutonRond boutonRole3;
                 if (nbJoueur>2){
-                boutonRole3 = new BoutonRond(aventuriers.get(2).getRole().toString());
+                boutonRole3 = new BoutonRond(imgFolder+aventuriers.get(2).getRole().toString()+".png");
                 }
                 else{
                  boutonRole3 = new BoutonRond("");
@@ -129,7 +129,7 @@ public class VueJoueurCarte extends Observable {
                 JPanel panelBoutonRole4 = new JPanel();
                 BoutonRond boutonRole4;
                 if (nbJoueur>3){
-                boutonRole4 = new BoutonRond(aventuriers.get(3).getRole().toString());
+                boutonRole4 = new BoutonRond(imgFolder+aventuriers.get(3).getRole().toString()+".png");
                 }
                 else{
                 boutonRole4 = new BoutonRond("");
@@ -354,8 +354,8 @@ public class VueJoueurCarte extends Observable {
         testav.add(thomas);
         thomas.addInventaire(carteH);
         
-        VueJoueurCarte vjc = new VueJoueurCarte(2, testav);
-        vjc.actionsCarte(carteME, val);
+        VueJoueurCarte vjc = new VueJoueurCarte(3, testav);
+        
         
     }
       
