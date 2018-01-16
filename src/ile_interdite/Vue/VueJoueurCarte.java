@@ -50,7 +50,7 @@ public class VueJoueurCarte extends Observable {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définition de la taille de la fenêtre en pixels
-        window.setSize(600,1000);
+        window.setSize(675,1000);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(0, dim.height/2-window.getSize().height/2);
         
@@ -292,15 +292,19 @@ public class VueJoueurCarte extends Observable {
       public void actionsCarte(CarteTirage carte , Aventurier av){
          // Actions sur les cartes 
          
-         JPanel panelActionCarte = new JPanel(new GridLayout(3,7));
+         JPanel panelActionCarte = new JPanel(new GridLayout(2,7));
          this.panelMessage.add(panelActionCarte);
-         for (int i=0; i<21; i++){
-             if(i==8){
+         for (int i=0; i<14; i++){
+           
+            if (i==3){
+               panelActionCarte.add(new JLabel(av.getNomJoueur()));
+            }
+            else if(i==8){
                  
                  panelActionCarte.add(new JButton("Défausser"));
                  
-             }
-             else if(i==10){
+            }
+            else if(i==10){
                 if (carte.getType()==TypeCarte.HELICO || carte.getType()==TypeCarte.SABLE){
                     
                     panelActionCarte.add(new JButton("Jouer"));
@@ -309,16 +313,16 @@ public class VueJoueurCarte extends Observable {
                 else{
                     panelActionCarte.add(new JLabel());
                 }
-             }   
+            }   
                 
-                else if (i== 12){
+            else if (i== 12){
                  
                  panelActionCarte.add(new JLabel(" visuel carte"));
                  
-             }
-                else {
+            }
+            else {
                     panelActionCarte.add(new JLabel());
-                }
+            }
          }
       }
     
