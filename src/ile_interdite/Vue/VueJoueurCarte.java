@@ -5,12 +5,21 @@
  */
 package ile_interdite.Vue;
 
+import ile_interdite.Aventurier.Aventurier;
+import ile_interdite.Aventurier.Explorateur;
+import ile_interdite.Aventurier.Ingenieur;
+import ile_interdite.Aventurier.Pilote;
+import ile_interdite.CarteTirage.CarteHelico;
+import ile_interdite.CarteTirage.CarteMEaux;
+import ile_interdite.CarteTirage.CarteSable;
+import ile_interdite.CarteTirage.CarteTresor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Observable;
 import javax.swing.BorderFactory;
@@ -30,9 +39,11 @@ public class VueJoueurCarte extends Observable {
     private JLabel message;
     private JPanel mainPanel;
     private int nbJoueur;
+    private ArrayList<Aventurier> aventuriers;
 
-    public VueJoueurCarte(int nbJoueur) {
+    public VueJoueurCarte(int nbJoueur, ArrayList<Aventurier> av ) {
         this.nbJoueur=nbJoueur;
+        this.aventuriers=av;
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définition de la taille de la fenêtre en pixels
@@ -63,9 +74,9 @@ public class VueJoueurCarte extends Observable {
             if(i==1){
                 panelNomj.add(new JLabel());
                 panelNomj.add(new JLabel());
-                BoutonRond boutonRole1 = new BoutonRond("role j1");
+                BoutonRond boutonRole1 = new BoutonRond(aventuriers.get(0).getRole().toString());
                 panelNomj.add(boutonRole1);
-                panelNomj.add(new JLabel("Nom Joueur 1"));
+                panelNomj.add(new JLabel(aventuriers.get(0).getNomJoueur()));
                 
                 
                 
@@ -73,9 +84,9 @@ public class VueJoueurCarte extends Observable {
             else if (i==3){
                 panelNomj.add(new JLabel());
                 panelNomj.add(new JLabel());
-                BoutonRond boutonRole2 = new BoutonRond("role J2");
+                BoutonRond boutonRole2 = new BoutonRond(aventuriers.get(1).getRole().toString());
                 panelNomj.add(boutonRole2);
-                panelNomj.add(new JLabel("Role Joueur 2"));
+                panelNomj.add(new JLabel(aventuriers.get(1).getNomJoueur()));
                  
             }
               else if (i==5){ 
@@ -83,15 +94,23 @@ public class VueJoueurCarte extends Observable {
                 panelNomj.add(new JLabel());
                 //
                 JPanel panelBoutonRole3 = new JPanel();
-                BoutonRond boutonRole3 = new BoutonRond("role J3");
+                BoutonRond boutonRole3;
+                if (nbJoueur>2){
+                boutonRole3 = new BoutonRond(aventuriers.get(2).getRole().toString());
+                }
+                else{
+                 boutonRole3 = new BoutonRond("");
+                }
                 panelBoutonRole3.add(boutonRole3);
                 panelNomj.add(panelBoutonRole3);
                 
                 //
                 JPanel panelRole3 = new JPanel();
                 panelNomj.add(panelRole3);
-                panelRole3.add(new JLabel("Role Joueur 3"));
-                
+                if (nbJoueur>2){
+                panelRole3.add(new JLabel(aventuriers.get(2).getNomJoueur()));
+                }
+               
                 //
                 if (nbJoueur<3){
                     panelBoutonRole3.setVisible(false);
@@ -105,14 +124,22 @@ public class VueJoueurCarte extends Observable {
                 
                 //
                 JPanel panelBoutonRole4 = new JPanel();
-                BoutonRond boutonRole4 = new BoutonRond("role J3");
+                BoutonRond boutonRole4;
+                if (nbJoueur>3){
+                boutonRole4 = new BoutonRond(aventuriers.get(3).getRole().toString());
+                }
+                else{
+                boutonRole4 = new BoutonRond("");
+                }
                 panelBoutonRole4.add(boutonRole4);
                 panelNomj.add(panelBoutonRole4);
                 
                 //
                 JPanel panelRole4 = new JPanel();
                 panelNomj.add(panelRole4);
-                panelRole4.add(new JLabel("Role Joueur 3"));
+                if (nbJoueur> 3){
+                panelRole4.add(new JLabel(aventuriers.get(1).getNomJoueur()));
+                }
                 
                 // Adaptatif en fonction du nombre de joueur
                 if (nbJoueur<4){
@@ -171,82 +198,8 @@ public class VueJoueurCarte extends Observable {
     }
       
     public void mettreAJour(){
-        // nom du joueur et son rôle
-        JPanel panelNomj = new JPanel(new GridLayout(20,1));
-        mainPanel.add(panelNomj, BorderLayout.WEST);
-        
-        // Récupérer le nom des joueurs et leur rôle
-        
-        for(int i=0; i<8;i++){
-            if(i==1){
-                panelNomj.add(new JLabel());
-                panelNomj.add(new JLabel());
-                BoutonRond boutonRole1 = new BoutonRond("role j1");
-                panelNomj.add(boutonRole1);
-                panelNomj.add(new JLabel("Nom Joueur 1"));
-                
-                
-                
-            }
-            else if (i==3){
-                panelNomj.add(new JLabel());
-                panelNomj.add(new JLabel());
-                BoutonRond boutonRole2 = new BoutonRond("role J2");
-                panelNomj.add(boutonRole2);
-                panelNomj.add(new JLabel("Role Joueur 2"));
-                 
-            }
-              else if (i==5){ 
-                panelNomj.add(new JLabel());
-                panelNomj.add(new JLabel());
-                //
-                JPanel panelBoutonRole3 = new JPanel();
-                BoutonRond boutonRole3 = new BoutonRond("role J3");
-                panelBoutonRole3.add(boutonRole3);
-                panelNomj.add(panelBoutonRole3);
-                
-                //
-                JPanel panelRole3 = new JPanel();
-                panelNomj.add(panelRole3);
-                panelRole3.add(new JLabel("Role Joueur 3"));
-                
-                //
-                if (this.nbJoueur<3){
-                    panelBoutonRole3.setVisible(false);
-                    panelRole3.setVisible(false);
-                }
-                 
-            }
-                else if (i==7){
-                panelNomj.add(new JLabel());
-                panelNomj.add(new JLabel());
-                
-                //
-                JPanel panelBoutonRole4 = new JPanel();
-                BoutonRond boutonRole4 = new BoutonRond("role J3");
-                panelBoutonRole4.add(boutonRole4);
-                panelNomj.add(panelBoutonRole4);
-                
-                //
-                JPanel panelRole4 = new JPanel();
-                panelNomj.add(panelRole4);
-                panelRole4.add(new JLabel("Role Joueur 3"));
-                
-                // Adaptatif en fonction du nombre de joueur
-                if (nbJoueur<4){
-                    panelBoutonRole4.setVisible(false);
-                    panelRole4.setVisible(false);
-                }
-                 
-            }
-            else {
-                panelNomj.add(new JLabel(""));
-               
-            }
-            
-        }
-       
-        // cartes des joueurs
+      
+       // cartes des joueurs
         JPanel panelCarte= new JPanel(new GridLayout(8,1));
         mainPanel.add(panelCarte,BorderLayout.CENTER);
         
@@ -256,11 +209,14 @@ public class VueJoueurCarte extends Observable {
                JPanel panelCarteJ1 = new JPanel(new GridLayout(2,5));
                panelCarte.add(panelCarteJ1);
                for(int j=0; j<10; j++){
-                    if (j==9){
-                      panelCarteJ1.add(new JLabel());
+                    if (aventuriers.get(0).getInventaire().size()> j){
+                        
+                    panelCarteJ1.add(new JButton(aventuriers.get(0).getInventaire().get(j).getType().toString()));
+                      
                   }
                   else{
-                   panelCarteJ1.add(new JButton("carte "+(j+1)));
+                   panelCarteJ1.add(new JLabel());
+                   
                   }
                }
             }
@@ -268,11 +224,14 @@ public class VueJoueurCarte extends Observable {
                 JPanel panelCarteJ2 = new JPanel(new GridLayout(2,5));
                panelCarte.add(panelCarteJ2);
                for(int j=0; j<10; j++){
-                  if (j==9){
-                      panelCarteJ2.add(new JLabel());
+                   if (aventuriers.get(1).getInventaire().size()> j){
+                        
+                    panelCarteJ2.add(new JButton(aventuriers.get(1).getInventaire().get(j).getType().toString()));
+                      
                   }
                   else{
-                   panelCarteJ2.add(new JButton("carte "+(j+1)));
+                   panelCarteJ2.add(new JLabel());
+                   
                   }
                
                }
@@ -286,11 +245,16 @@ public class VueJoueurCarte extends Observable {
                 }
                
                for(int j=0; j<10; j++){
-                  if (j==9){
-                      panelCarteJ3.add(new JLabel());
+                   if (nbJoueur>2){
+                   if (aventuriers.get(2).getInventaire().size()> j){
+                        
+                    panelCarteJ3.add(new JButton(aventuriers.get(2).getInventaire().get(j).getType().toString()));
+                      
                   }
                   else{
-                   panelCarteJ3.add(new JButton("carte "+(j+1)));
+                   panelCarteJ3.add(new JLabel());
+                   
+                  }
                   }
                
                }
@@ -299,20 +263,22 @@ public class VueJoueurCarte extends Observable {
                 else if (i==7){
                  
                 JPanel panelCarteJ4 = new JPanel(new GridLayout(2,5));
-                
+                if (nbJoueur>3){
                 if (nbJoueur<4){
                     panelCarteJ4.setVisible(false);
                 }
                 
                panelCarte.add(panelCarteJ4);
                for(int j=0; j<10; j++){
-                  if (j==9){
-                      panelCarteJ4.add(new JLabel());
-                  }
-                  else{
-                   panelCarteJ4.add(new JButton("carte "+(j+1)));
-                  }
-               
+                   if (aventuriers.get(3).getInventaire().size() > j) {
+
+                       panelCarteJ4.add(new JButton(aventuriers.get(3).getInventaire().get(j).getType().toString()));
+
+                   } else {
+                       panelCarteJ4.add(new JLabel());
+
+                   }
+               }
                }
                
             }
@@ -353,5 +319,37 @@ public class VueJoueurCarte extends Observable {
      */
     public void setMessage(JLabel message) {
         this.message = message;
+    }
+    
+      public static void main(String [] args) {
+	ArrayList<Aventurier> testav = new ArrayList<>();
+        
+        // aventuriers
+        Explorateur val = new Explorateur("Valentin");
+        Ingenieur alexis = new Ingenieur("Alexis");
+        Pilote thomas = new Pilote("Thomas");
+        
+          CarteSable carteS = new CarteSable();
+          CarteMEaux carteME = new CarteMEaux();
+          CarteHelico carteH = new CarteHelico();
+        
+        //
+        testav.add(val);
+        val.addInventaire(carteS);
+        val.addInventaire(carteS);
+        val.addInventaire(carteH);
+        
+        
+        testav.add(alexis);
+        alexis.addInventaire(carteME);
+        alexis.addInventaire(carteS);
+        alexis.addInventaire(carteH);
+        alexis.addInventaire(carteS);
+        
+        testav.add(thomas);
+        thomas.addInventaire(carteH);
+        
+        VueJoueurCarte vjc = new VueJoueurCarte(3, testav);
+        
     }
 }
